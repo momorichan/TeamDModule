@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
+<<<<<<< HEAD
     pageEncoding="EUC-KR"%>
+=======
+	pageEncoding="EUC-KR"%>
+>>>>>>> branch 'master' of https://github.com/momorichan/TeamDModule.git
 <%@page import="java.util.*"%>
 <%-- jstl을 위한 태그 라이브러리 선언 --%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
