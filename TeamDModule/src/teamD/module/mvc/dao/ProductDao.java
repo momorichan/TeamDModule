@@ -25,11 +25,14 @@ public class ProductDao implements ProductDaoInter{
 	public List<LCategoryVO> lcList() {
 		return ss.selectList("product.lclist");
 	}
+<<<<<<< HEAD
 
 	@Override
 	public List<SCategoryVO> scList() {
 		return ss.selectList("product.sclist");
 	}
 	
+=======
+>>>>>>> branch 'master' of https://github.com/momorichan/TeamDModule.git
 
 }

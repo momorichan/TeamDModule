@@ -16,11 +16,7 @@ public class ProductController {
 	
 	@GetMapping("/prInsert")
 	public String prInsertForm(Model model) {
-		model.addAttribute("lclist",productDaoInter.lcList());
+		model.addAttribute("lclist", productDaoInter.lcList());
 		return "product/prInsertForm";
 	}
-	
-	
-	
-
 }

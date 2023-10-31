@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
     
-<%@ include file = "./../temp/header.jsp"%>
+<%@ include file = "../temp/header.jsp"%>
 
 <article>
    <div class="container">
@@ -44,7 +44,11 @@
             <span class="input-group-text">소분류카테고리</span>
             <select id="category" name="category" class="form-select">
                <c:forEach var="category" items="${sclist}"> 
+<<<<<<< HEAD
                   <option value="${category.scnum}">${category.scname}</option>
+=======
+                  <option value="${category.engname}">${category.korname}</option>
+>>>>>>> branch 'master' of https://github.com/momorichan/TeamDModule.git
                </c:forEach>
             </select>            
          </div>
@@ -55,7 +59,7 @@
          <div id="buttonset" class="input-group">
             <button type="submit" class="btn btn-primary btn-lg"
                onclick="return validCheck();"> 
-               		등록
+               등록
             </button>
             &nbsp;&nbsp;&nbsp;
             <button type="reset" class="btn btn-secondary btn-lg">초기화</button>
