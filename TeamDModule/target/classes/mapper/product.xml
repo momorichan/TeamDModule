@@ -15,4 +15,23 @@
   	<select id="prlist" resultType="pvo" >
   		select pnum, pname, price, scnum ,stock,pdetail, image, image2, image3 from product
   	</select>
+	
+	<select id="totalCount" resultType="int" parameterType="map">
+		select count(*) cnt from product p, scategory sc where p.scnum = sc.scnum
+		<if test="searchValue != null and searchType != null">
+			<where> <!-- 아래 choose문이 실행되지 않으면 자동으로 사라진다. 이게 바로 다이나믹 쿼리 -->
+				<choose>
+					<when test="searchType == 1">
+						title like '%'||#{searchValue}||'%'
+					</when>
+					<when test="searchType == 2">
+						writer like '%'||#{searchValue}||'%'
+					</when>
+					<when test="searchType == 3">
+						content like '%'||#{searchValue}||'%'
+					</when>
+				</choose>
+			</where>
+		</if>
+	</select>
   </mapper>
