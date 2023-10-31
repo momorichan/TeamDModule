@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import teamD.module.mvc.dao.ProductDaoInter;
-import teamD.module.mvc.dto.ProductVO;
 
 @Controller
 public class ProductController {
@@ -19,5 +18,6 @@ public class ProductController {
 	public String prInsertForm(Model model) {
 		model.addAttribute("lclist", productDaoInter.lcList());
 		return "product/prInsertForm";
+		
 	}
 }
