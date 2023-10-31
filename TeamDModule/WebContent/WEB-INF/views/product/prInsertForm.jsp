@@ -51,32 +51,6 @@
 	</div>
 </article>
 <script>
-<<<<<<< HEAD
-$(document).ready(function() {
-	sclistfunction($('#lcategory').val());
-});
-function sclistfunction(selectedValue) {
-		$('#scategory').empty();
-	    $.ajax({
-	        url: "${cPath}/sclist?lcnum=" + selectedValue,
-	        type: "get",
-	        dataType : 'json', 
-	        success: function(sclist) {
-	        	sclist.forEach(item => {
-			        var option = $('<option>');
-			        option.val(item.scnum);
-			        option.text(item.scname);
-	
-			        $('#scategory').append(option);
-			    });
-	        },
-	    });
-}
-$('#lcategory').on('change', function() {
-    sclistfunction($(this).val());
-});
-</script>
-=======
 	$('#lcategory').on('change', function() {
 		var selectedValue = $(this).val();
 		$.ajax({
@@ -93,4 +67,4 @@ $('#lcategory').on('change', function() {
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
->>>>>>> branch 'master' of https://github.com/momorichan/TeamDModule.git
+

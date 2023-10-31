@@ -39,13 +39,11 @@ public class ProductDao implements ProductDaoInter{
 
 	@Override
 	public int getTotal(Map<String, String> paramMap) {
-		// FIXME Auto-generated method stub
-		return 0;
+		return ss.selectOne("product.totalCount",paramMap);
 	}
 
 	@Override
 	public List<ProductVO> productList(Map<String, String> map) {
-		// FIXME Auto-generated method stub
-		return null;
+		return ss.selectList("product.prlist",map);
 	}
 }
