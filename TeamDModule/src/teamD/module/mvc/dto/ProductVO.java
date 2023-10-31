@@ -1,5 +1,7 @@
 package teamD.module.mvc.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class ProductVO {
 	private int pnum; // 상품 번호. 시퀀스
 	private String pname; // 상품 이름.
@@ -7,10 +9,32 @@ public class ProductVO {
 	private int scnum; // 소분류 번호
 	private int stock; // 상품 재고
 	private String pdetail; // 상품 상세 설명
-	private String image; // 상품 이미지
-	private String image2; // 상품 이미지
-	private String image3; // 상품 이미지
+   private String image; // 상품 이미지 1
+   private MultipartFile mfile1;
+   private String image2;// 상품 이미지 2
+   private MultipartFile mfile2;
+   private String image3;// 상품 이미지 3
+   private MultipartFile mfile3;
+
 	
+	public MultipartFile getMfile1() {
+	return mfile1;
+	}
+	public void setMfile1(MultipartFile mfile1) {
+		this.mfile1 = mfile1;
+	}
+	public MultipartFile getMfile2() {
+		return mfile2;
+	}
+	public void setMfile2(MultipartFile mfile2) {
+		this.mfile2 = mfile2;
+	}
+	public MultipartFile getMfile3() {
+		return mfile3;
+	}
+	public void setMfile3(MultipartFile mfile3) {
+		this.mfile3 = mfile3;
+	}
 	public int getPnum() {
 		return pnum;
 	}
