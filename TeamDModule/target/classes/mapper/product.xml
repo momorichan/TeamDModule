@@ -6,4 +6,7 @@
   	<insert id="add" parameterType="pvo">
   		insert into product values(product_seq.nextval, #{pname}, #{price}, #{scnum}, #{stock}, #{pdetail}, #{image}, #{image2}, #{image3})
   	</insert>
+  	<select id="lclist" resultType="lcvo" >
+  		select * from lcategory
+  	</select>
   </mapper>

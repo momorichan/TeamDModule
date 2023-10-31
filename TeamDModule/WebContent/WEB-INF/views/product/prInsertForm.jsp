@@ -1,90 +1,65 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
-  	<style type="text/css">
-  		.container{margin-top: 10px;}
-  		.input-group{margin: 7px;}
-  		.input-group-text{
-  			display: block;
-  			margin-left: auto;
-  			margin-right: auto;
-  		}
-  		#buttonset{margin-top: 15px;}
-  		.radio_gender, .checkbox_hobby{font-size: 1.1rem;} /* ì£¼ìœ„ ê¸€ê¼´ì˜ 1.1ë°° */
-  		#productPnum{display: none;visibility: hidden;} /* ìƒí’ˆ ë²ˆí˜¸ëŠ” ì•ˆë³´ì´ê²Œ ì§€ì •*/
-  	</style>
-</head>
-<body>
-	<div class="container">
-		<h2>ìƒí’ˆ ë“±ë¡</h2>
-		<p>ê´€ë¦¬ìê°€ êµ¬ë§¤í•  ìƒí’ˆì„ ë“±ë¡í•˜ëŠ” í˜ì´ì§€ì…ë‹ˆë‹¤.</p>
-		<form action="" method="post" enctype="multipart/form-data">
-			<input type="hidden" name="command" value="prInsert">
-			<div id="productPnum" class="input-group">
-				<span class="input-group-text">ìƒí’ˆ ë²ˆí˜¸</span>
-				<input class="form-control" type="number" id="pnum" name="pnum">				
-			</div>
-			<div class="input-group">
-				<span class="input-group-text">ìƒí’ˆ ì´ë¦„</span>
-				<input class="form-control" type="text" id="name" name="name">				
-			</div>
-			<div class="input-group">
-				<span class="input-group-text">ì œì¡° íšŒì‚¬</span>
-				<input class="form-control" type="text" id="company" name="company">				
-			</div>
-			<div class="input-group">
-				<span class="input-group-text">ì´ë¯¸ì§€01</span>
-				<input class="form-control" type="file" id="image01" name="image01">				
-			</div>
-			<div class="input-group">
-				<span class="input-group-text">ì´ë¯¸ì§€02</span>
-				<input class="form-control" type="file" id="image02" name="image02">				
-			</div>
-			<div class="input-group">
-				<span class="input-group-text">ì´ë¯¸ì§€03</span>
-				<input class="form-control" type="file" id="image03" name="image03">				
-			</div>
-			<div class="input-group">
-				<span class="input-group-text">ì¬ê³  ìˆ˜ëŸ‰</span>
-				<input class="form-control" type="number" id="stock" name="stock">				
-			</div>
-			<div class="input-group">
-				<span class="input-group-text">ë‹¨ê°€</span>
-				<input class="form-control" type="number" id="price" name="price">				
-			</div>
-			<div class="input-group">
-				<span class="input-group-text">ì¹´í…Œê³ ë¦¬</span>
-				<select id="category" name="category" class="form-select">
-					<c:forEach var="category" items="${requestScope.categories}"> 
-						<option value="${category.engname}">${category.korname}</option>
-					</c:forEach>
-				</select>				
-			</div>
-			<div class="input-group">
-				<span class="input-group-text">ìƒí’ˆ ìƒì„¸ ì„¤ëª…</span>
-				<input class="form-control" type="text" id="contents" name="contents">				
-			</div>			
-			<div class="input-group">
-				<span class="input-group-text">ì ë¦½ í¬ì¸íŠ¸</span>
-				<input class="form-control" type="number" id="point" name="point">				
-			</div>			
-			<div class="input-group">
-				<span class="input-group-text">ì…ê³  ì¼ì</span>
-				<input class="form-control" type="datetime" id="inputdate" name="inputdate">				
-			</div>
-			<div id="buttonset" class="input-group">
-				<button type="submit" class="btn btn-primary btn-lg"
-					onclick="return validCheck();"> 
-					ë“±ë¡
-				</button>
-				&nbsp;&nbsp;&nbsp;
-				<button type="reset" class="btn btn-secondary btn-lg">ì´ˆê¸°í™”</button>
-			</div>
-		</form>
-	</div>
-</body>
-</html>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+    
+<%@ include file = "./../temp/header.jsp"%>
+
+<article>
+   <div class="container">
+      <h2>»óÇ° µî·Ï</h2>
+      <p>°ü¸®ÀÚ°¡ ±¸¸ÅÇÒ »óÇ°À» µî·ÏÇÏ´Â ÆäÀÌÁöÀÔ´Ï´Ù.</p>
+      <form action="" method="post" enctype="multipart/form-data">
+         <div class="input-group">
+            <span class="input-group-text">»óÇ° ÀÌ¸§</span>
+            <input class="form-control" type="text" id="name" name="name">            
+         </div>
+         <div class="input-group">
+            <span class="input-group-text">ÀÌ¹ÌÁö01</span>
+            <input class="form-control" type="file" id="image01" name="image01">            
+         </div>
+         <div class="input-group">
+            <span class="input-group-text">ÀÌ¹ÌÁö02</span>
+            <input class="form-control" type="file" id="image02" name="image02">            
+         </div>
+         <div class="input-group">
+            <span class="input-group-text">ÀÌ¹ÌÁö03</span>
+            <input class="form-control" type="file" id="image03" name="image03">            
+         </div>
+         <div class="input-group">
+            <span class="input-group-text">Àç°í ¼ö·®</span>
+            <input class="form-control" type="number" id="stock" name="stock">            
+         </div>
+         <div class="input-group">
+            <span class="input-group-text">´Ü°¡</span>
+            <input class="form-control" type="number" id="price" name="price">            
+         </div>
+         <div class="input-group">
+            <span class="input-group-text">´ëºĞ·ùÄ«Å×°í¸®</span>
+            <select id="category" name="lcategory" class="form-select">
+               <c:forEach var="category" items="${lclist}"> 
+                  <option value="${category.lcnum}">${category.lcname}</option>
+               </c:forEach>
+            </select>            
+         </div>
+         <div class="input-group">
+            <span class="input-group-text">¼ÒºĞ·ùÄ«Å×°í¸®</span>
+            <select id="category" name="category" class="form-select">
+               <c:forEach var="category" items="${requestScope.categories}"> 
+                  <option value="${category.engname}">${category.korname}</option>
+               </c:forEach>
+            </select>            
+         </div>
+         <div class="input-group">
+            <span class="input-group-text">»óÇ° »ó¼¼ ¼³¸í</span>
+            <input class="form-control" type="text" id="contents" name="contents">            
+         </div>         
+         <div id="buttonset" class="input-group">
+            <button type="submit" class="btn btn-primary btn-lg"
+               onclick="return validCheck();"> 
+               		µî·Ï
+            </button>
+            &nbsp;&nbsp;&nbsp;
+            <button type="reset" class="btn btn-secondary btn-lg">ÃÊ±âÈ­</button>
+         </div>
+      </form>
+   </div>
+</article>
