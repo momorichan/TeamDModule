@@ -4,6 +4,10 @@
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases >
-		<typeAlias type="kr.co.ictedu.mvc.dto.FboardDTO" alias="fvo"/>
+		<typeAlias type="teamD.module.mvc.dto.CartItem_LogVO" alias="logvo"/>
+		<typeAlias type="teamD.module.mvc.dto.CartItemVO" alias="cartvo"/>
+		<typeAlias type="teamD.module.mvc.dto.LCategoryVO" alias="lcvo"/>
+		<typeAlias type="teamD.module.mvc.dto.SCategoryVO" alias="scvo"/>
+		<typeAlias type="teamD.module.mvc.dto.ProductVO" alias="pvo"/>
 	</typeAliases>
 </configuration> 
