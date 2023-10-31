@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-    
+
 <%@ include file = "../temp/header.jsp"%>
 
 <article>
@@ -64,29 +64,8 @@
 </article>
 <script>
 $.ajax({ // ajax 기본형태
-	//////////////////// send(가는것)
-	url : "data.jsp",
-	type : "get",
-//	data : "t1=XYZ&t2=자차카", // 넘겨주는 데이터
-	data : {t1:"xyz", t2:"가나다"}, //위와동일
+	url: "/sclist",
 
-	//////////////////// recv
-	success : function(data, status, xhr){ // status, xhr 생략가능 
-
-	//	alert("success"); // 성공하면  success
-	//	alert(data);
-	
-		$("#demo").html(data);
-	//	alert(status);  // 상태를 반환한다 (success)
-	//	alert(xhr.responseText); // html문서 형태 전체를 출력한다.
-	},
-	error : function(xhr, status, error) { // (파라미터 생략가능)
-		alert("error");
-	},
-	complete : function(xhr, status) { // (파라미터 생략가능)
-		alert("통신종료");
-	}
-	////////////////////
 });	
 
 
@@ -161,3 +140,4 @@ $.ajax({ // ajax 기본형태
 		}
 	}
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
