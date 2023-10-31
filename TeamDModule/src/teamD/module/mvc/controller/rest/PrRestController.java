@@ -15,9 +15,8 @@ public class PrRestController {
 	private ProductDaoInter dao;
 	
 	@GetMapping(value = "/sclist", produces = "application/json; charset=utf-8")
-	public List<SCategoryVO> scList (int num){
-		
-		List<SCategoryVO> list = dao.scList();
+	public List<SCategoryVO> scList (int lcnum){		
+		List<SCategoryVO> list = dao.scList(lcnum);
 		
 		return list ;
 	}

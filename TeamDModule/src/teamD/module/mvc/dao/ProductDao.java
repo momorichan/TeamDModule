@@ -27,8 +27,7 @@ public class ProductDao implements ProductDaoInter{
 	}
 
 	@Override
-	public List<SCategoryVO> scList() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<SCategoryVO> scList(int lcnum) {
+		return ss.selectList("product.sclist",lcnum);
 	}
 }
