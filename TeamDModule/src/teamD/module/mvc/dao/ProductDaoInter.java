@@ -10,4 +10,5 @@ public interface ProductDaoInter {
 	public void prInsert(ProductVO vo);
 	public List<LCategoryVO> lcList (); 
 	public List<SCategoryVO> scList(int lcnum);
+	public List<ProductVO> prList();
 }

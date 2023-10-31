@@ -12,4 +12,7 @@
   	<select id="sclist" resultType="scvo" parameterType="int">
   		select scnum, lcnum, scname from scategory where lcnum = #{lcnum}
   	</select>
+  	<select id="prlist" resultType="pvo" >
+  		select pnum, pname, price, scnum ,stock,pdetail, image, image2, image3 from product
+  	</select>
   </mapper>
