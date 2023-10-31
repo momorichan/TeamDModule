@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import teamD.module.mvc.dto.LCategoryVO;
 import teamD.module.mvc.dto.ProductVO;
+import teamD.module.mvc.dto.SCategoryVO;
 
 @Repository
 public class ProductDao implements ProductDaoInter{
@@ -23,6 +24,11 @@ public class ProductDao implements ProductDaoInter{
 	@Override
 	public List<LCategoryVO> lcList() {
 		return ss.selectList("product.lclist");
+	}
+
+	@Override
+	public List<SCategoryVO> scList() {
+		return ss.selectList("product.sclist");
 	}
 	
 

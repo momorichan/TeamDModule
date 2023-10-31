@@ -18,7 +18,6 @@ public class ProductController {
 	public String prInsertForm(Model model) {
 		model.addAttribute("lclist",productDaoInter.lcList());
 		return "product/prInsertForm";
-		
 	}
 	
 	
