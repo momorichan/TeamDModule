@@ -5,6 +5,9 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">    
    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+   <!-- 경로 설정 --> 
+<c:set var="rPath" value="${pageContext.request.contextPath}/resources"/>
+<c:set var="cPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,11 +28,11 @@
 					</li>
 					<!-- product section -->
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" role="button"
+						<a class="nav-link dropdown-toggle" href="${cPath}/list" role="button"
 							data-bs-toggle="dropdown">상품</a>
 						<ul class="dropdown-menu">
 							
-							<li><a class="dropdown-item" href="prList">목록 보기</a></li>
+							<li><a class="dropdown-item" href="${cPath}/prList">목록 보기</a></li>
 						</ul>
 					</li>		
 			        <!-- 쇼핑몰 section -->
