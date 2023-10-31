@@ -63,18 +63,27 @@
    </div>
 </article>
 <script>
-$('#lcategory').on('change', function() {
-	var selectedValue = $(this).val();
-    $.ajax({
-        url: "/sclist?lcnum=" + selectedValue,
-        type: "get",
-        success: function(response) {
-            // 성공적으로 데이터를 받았을 때의 처리
-        },
-        error: function(error) {
-            // 오류가 발생했을 때의 처리
-        }
-    });
+$(document).ready(function() {
+	sclistfunction($('#lcategory').val());
 });
+function sclistfunction(selectedValue) {
+		$('#scategory').empty();
+	    $.ajax({
+	        url: "${cPath}/sclist?lcnum=" + selectedValue,
+	        type: "get",
+	        dataType : 'json', 
+	        success: function(sclist) {
+	        	sclist.forEach(item => {
+			        var option = $('<option>');
+			        option.val(item.scnum);
+			        option.text(item.scname);
 	
+			        $('#scategory').append(option);
+			    });
+	        },
+	    });
+}
+$('#lcategory').on('change', function() {
+    sclistfunction($(this).val());
+});
 </script>
