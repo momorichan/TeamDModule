@@ -1,7 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+	pageEncoding="EUC-KR"%>
 <%@page import="java.util.*"%>
-<%-- jstlì„ ìœ„í•œ íƒœê·¸ ë¼ì´ë¸ŒëŸ¬ë¦¬ ì„ ì–¸ --%> 
+<%-- jstlÀ» À§ÇÑ ÅÂ±× ¶óÀÌºê·¯¸® ¼±¾ð --%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -12,7 +12,7 @@
 <body>
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#">ì‡¼í•‘ëª°</a>
+			<a class="navbar-brand" href="#">¼îÇÎ¸ô</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
 				<span class="navbar-toggler-icon"></span>
@@ -24,24 +24,24 @@
 					<!-- product section -->
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" role="button"
-							data-bs-toggle="dropdown">ìƒí’ˆ</a>
+							data-bs-toggle="dropdown">»óÇ°</a>
 						<ul class="dropdown-menu">
 							
-							<li><a class="dropdown-item" href="prList">ëª©ë¡ ë³´ê¸°</a></li>
+							<li><a class="dropdown-item" href="prList">¸ñ·Ï º¸±â</a></li>
 						</ul>
 					</li>		
-			        <!-- ì‡¼í•‘ëª° section -->
+			        <!-- ¼îÇÎ¸ô section -->
 			        <li class="nav-item dropdown">
-			          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">ì‡¼í•‘ëª°</a>
+			          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">¼îÇÎ¸ô</a>
 			          <ul class="dropdown-menu">          
 			            <li>
 			            	<a class="dropdown-item" href="maList">
-			            		ì¹´íŠ¸ ë‚´ì—­ ë³´ê¸°
+			            		Ä«Æ® ³»¿ª º¸±â
 			            	</a>
 			            </li>
 <!-- 			            <li> -->
 <%-- 			            	<a class="dropdown-item" href="<%=notWithFormTag%>maHistory"> --%>
-<!-- 			            		ë‚˜ì˜ ì‡¼í•‘ ë‚´ì—­ -->
+<!-- 			            		³ªÀÇ ¼îÇÎ ³»¿ª -->
 <!-- 			            	</a> -->
 <!-- 			            </li> -->
 			          </ul>
