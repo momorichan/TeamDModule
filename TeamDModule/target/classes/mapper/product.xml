@@ -6,4 +6,5 @@
   	<insert id="add" parameterType="pvo">
   		insert into product values (product_seq.nextval,#{pname},#{PRICE},#{SCNUM},#{STOCK},#{PDETAIL},#{IMAGE},#{IMAGE2},#{IMAGE3})
   	</insert>
+  	
   </mapper>

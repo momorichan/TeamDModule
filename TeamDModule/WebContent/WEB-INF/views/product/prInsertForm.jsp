@@ -1,15 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-
-    
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
   	<style type="text/css">
-  		/* box model에 대한 공부가 필요합니다. */
   		.container{margin-top: 10px;}
   		.input-group{margin: 7px;}
   		.input-group-text{
@@ -21,7 +17,6 @@
   		.radio_gender, .checkbox_hobby{font-size: 1.1rem;} /* 주위 글꼴의 1.1배 */
   		#productPnum{display: none;visibility: hidden;} /* 상품 번호는 안보이게 지정*/
   	</style>
-
 </head>
 <body>
 	<div class="container">
