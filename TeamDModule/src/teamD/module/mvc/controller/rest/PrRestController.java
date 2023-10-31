@@ -1,20 +1,21 @@
 package teamD.module.mvc.controller.rest;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import teamD.module.mvc.dao.ProductDaoInter;
+import teamD.module.mvc.dto.SCategoryVO;
 
 @RestController
 public class PrRestController {
-	
 	@Autowired
-	private ProductDaoInter productDaoInter;
+	private ProductDaoInter dao;
 	
-	@GetMapping("/scSelectList")
-	public String scSelectList(int lcnum) {
-		model.addAttribute("lclist", productDaoInter.lcList());
-		return "product/prInsertForm";
-	}	
+	@GetMapping(value = "/sclist", produces = "application/json; charset=utf-8")
+	public List<SCategoryVO> scList(){
+		
+	}
 }

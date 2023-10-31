@@ -43,7 +43,9 @@
          <div class="input-group">
             <span class="input-group-text">소분류카테고리</span>
             <select id="scategory" name="scategory" class="form-select">
-               
+               <c:forEach var="category" items="${sclist}"> 
+                  <option value="${category.scnum}">${category.scname}</option>
+               </c:forEach>
             </select>            
          </div>
          <div class="input-group">
