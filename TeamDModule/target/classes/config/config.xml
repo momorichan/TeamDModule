@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases >
+		<typeAlias type="kr.co.ictedu.mvc.dto.FboardDTO" alias="fvo"/>
+		<typeAlias type="kr.co.ictedu.mvc.dto.BoardVO" alias="upvo"/>
+		<typeAlias type="kr.co.ictedu.mvc.dto.BoardCommVO" alias="upcommvo"/>
+		<typeAlias type="kr.co.ictedu.mvc.dto.MemberVO" alias="mvo"/>
+		<typeAlias type="kr.co.ictedu.mvc.dto.MyLoginLoggerVO" alias="lvo"/>
+		<typeAlias type="kr.co.ictedu.mvc.dto.SurveyVO" alias="survo"/>
+		<typeAlias type="kr.co.ictedu.mvc.dto.SurveyContentVO" alias="subvo"/>
+	</typeAliases>
+</configuration> 
