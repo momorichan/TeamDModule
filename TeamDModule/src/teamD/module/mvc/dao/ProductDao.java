@@ -1,6 +1,7 @@
 package teamD.module.mvc.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,17 @@ public class ProductDao implements ProductDaoInter{
 	@Override
 	public List<ProductVO> prList() {
 		return ss.selectList("product.prlist");
+	}
+
+	@Override
+	public int getTotal(Map<String, String> paramMap) {
+		// FIXME Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<ProductVO> productList(Map<String, String> map) {
+		// FIXME Auto-generated method stub
+		return null;
 	}
 }
