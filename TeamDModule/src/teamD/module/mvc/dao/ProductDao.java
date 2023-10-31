@@ -30,4 +30,9 @@ public class ProductDao implements ProductDaoInter{
 	public List<SCategoryVO> scList(int lcnum) {
 		return ss.selectList("product.sclist",lcnum);
 	}
+
+	@Override
+	public List<ProductVO> prList() {
+		return ss.selectList("product.prlist");
+	}
 }
