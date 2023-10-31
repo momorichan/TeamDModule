@@ -31,13 +31,8 @@
 						<a class="nav-link dropdown-toggle" href="${cPath}/list" role="button"
 							data-bs-toggle="dropdown">상품</a>
 						<ul class="dropdown-menu">
-<<<<<<< HEAD
-							
-							<li><a class="dropdown-item" href="${cPath}/prList">목록 보기</a></li>
-=======
 							<li><a class="dropdown-item" href="prList">목록 보기</a></li>
 							<li><a class="dropdown-item" href="prInsert">상품 등록</a></li>
->>>>>>> refs/remotes/origin/test
 						</ul>
 					</li>		
 			        <!-- 쇼핑몰 section -->
