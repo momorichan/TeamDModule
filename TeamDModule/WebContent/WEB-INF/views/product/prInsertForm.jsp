@@ -34,7 +34,7 @@
          </div>
          <div class="input-group">
             <span class="input-group-text">대분류카테고리</span>
-            <select id="category" name="lcategory" class="form-select">
+            <select id="lcategory" name="lcategory" class="form-select">
                <c:forEach var="category" items="${lclist}"> 
                   <option value="${category.lcnum}">${category.lcname}</option>
                </c:forEach>
@@ -42,10 +42,8 @@
          </div>
          <div class="input-group">
             <span class="input-group-text">소분류카테고리</span>
-            <select id="category" name="category" class="form-select">
-               <c:forEach var="category" items="${sclist}"> 
-                  <option value="${category.engname}">${category.korname}</option>
-               </c:forEach>
+            <select id="scategory" name="scategory" class="form-select">
+               
             </select>            
          </div>
          <div class="input-group">
@@ -54,8 +52,7 @@
          </div>         
          <div id="buttonset" class="input-group">
             <button type="submit" class="btn btn-primary btn-lg"
-               onclick="return validCheck();"> 
-               등록
+               onclick="return validCheck();">등록
             </button>
             &nbsp;&nbsp;&nbsp;
             <button type="reset" class="btn btn-secondary btn-lg">초기화</button>
@@ -63,3 +60,102 @@
       </form>
    </div>
 </article>
+<script>
+$.ajax({ // ajax 기본형태
+	//////////////////// send(가는것)
+	url : "data.jsp",
+	type : "get",
+//	data : "t1=XYZ&t2=자차카", // 넘겨주는 데이터
+	data : {t1:"xyz", t2:"가나다"}, //위와동일
+
+	//////////////////// recv
+	success : function(data, status, xhr){ // status, xhr 생략가능 
+
+	//	alert("success"); // 성공하면  success
+	//	alert(data);
+	
+		$("#demo").html(data);
+	//	alert(status);  // 상태를 반환한다 (success)
+	//	alert(xhr.responseText); // html문서 형태 전체를 출력한다.
+	},
+	error : function(xhr, status, error) { // (파라미터 생략가능)
+		alert("error");
+	},
+	complete : function(xhr, status) { // (파라미터 생략가능)
+		alert("통신종료");
+	}
+	////////////////////
+});	
+
+
+
+	window.onload = function() {
+		let number = 1;
+		document.querySelector("#load1").onclick = function(e) {
+			e.preventDefault();
+			let param = null;
+			sendRequest("boardJsonList", param, res, "get");
+		}
+		document.querySelector("#sendAjax").onclick = function(e) {
+			e.preventDefault();
+			//동적으로 전달할 객체
+			/*
+			num:1,
+			title:"오늘은 왠지 ㅎㅎㅎㅎㅎ0",
+			writer:"김길동",
+			content:"내용1",
+			reip:"192.168.0.113",
+			bdate:"2023-06-14"
+			 */
+			const data = {}
+			data.num = number;
+			data.title = document.getElementById("title").value;
+			data.content = document.getElementById("content").value;
+			data.writer = document.getElementById("writer").value;
+			data.reip = document.getElementById("reip").value;
+			data.bdate = "2023-06-14";
+			let param = JSON.stringify(data); //json으로 변환
+			let type = "json";
+			//alert(data.bdate);
+			sendRequest("RequestParamDemo", param, res2, "post", type);
+			number++;
+		}
+		//callback
+		function res() {
+			if(xhr.readyState === 4){
+				if(xhr.status === 200){
+					$('#target').empty();
+					let res = xhr.responseText;
+					console.log("res =>"+ res);
+					let data = JSON.parse(xhr.responseText);
+					dataListLoad(data);
+				}
+			}
+		}
+		
+		function dataListLoad(data) {
+			data.forEach(item => {
+		        var tr = $('<tr>');
+		        
+		        
+		        
+		        tr.append($('<td>').text(item.num));
+		        tr.append($('<td>').text(item.title));
+		        tr.append($('<td>').text(item.writer));
+		        tr.append($('<td>').text(item.reip));
+		        tr.append($('<td>').text(item.bdate));
+
+		        $('#target').append(tr);
+		    });
+		}
+		
+		function res2() {
+			if(xhr.readyState === 4){
+				if(xhr.status === 200){
+					let res = xhr.responseText;
+					console.log("res2 =>"+ res);
+				}
+			}
+		}
+	}
+</script>
