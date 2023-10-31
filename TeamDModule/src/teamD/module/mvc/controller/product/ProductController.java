@@ -67,7 +67,6 @@ public class ProductController {
 	         model.addAttribute("endPage",endpage);
 	         model.addAttribute("page",pageVO);
 	         model.addAttribute("list",list);
-	         model.addAttribute("searchType",map.get("searchType"));
 	         model.addAttribute("searchValue",map.get("searchValue"));
 	         
 	      return "product/prList";
