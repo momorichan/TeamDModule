@@ -40,7 +40,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>TeamD</servlet-name>
-		<url-pattern>/web/*</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<!-- TeamD-admin -->
 	<servlet>

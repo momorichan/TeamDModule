@@ -3,4 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="product">
+  	<insert id="add" parameterType="pvo">
+  		insert into product values (product_seq.nextval,#{pname},#{PRICE},#{SCNUM},#{STOCK},#{PDETAIL},#{IMAGE},#{IMAGE2},#{IMAGE3})
+  	</insert>
   </mapper>
