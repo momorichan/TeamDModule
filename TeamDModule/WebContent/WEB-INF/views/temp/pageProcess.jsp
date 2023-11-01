@@ -7,7 +7,7 @@
 			<%-- 이전페이지 --%>
 			<c:choose>
 				<c:when test="${startPage <= page.pagePerBlock }">
-					<li class="page-item disabled">
+					<li class="page-item">
 					<a class="page-link" href="#">Previous</a></li>
 				</c:when>
 				<c:otherwise>
@@ -21,16 +21,17 @@
 				<%--현재 페이지면 링크를 해제 , 링크를 지정 --%>
 				<c:choose>
 					<c:when test="${i.index == page.nowPage }">
-						<li class="page-item active"><a class="page-link" href="#">${i.index }</a>
+						<li class="page-item active"><a class="page-link" href="#" id="page${i.index }">${i.index }</a>
 						</li>
 					</c:when>
 					<c:otherwise>
 						<li class="page-item"><a class="page-link"
-							href="${pageurl }=${i.index }">${i.index }</a></li>
+							href="#" id="page${i.index }">${i.index }</a></li>
+							
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
-
+<!-- ${pageurl }=${i.index } -->
 			<%-- 다음페이지 --%> 
 			<c:choose>
 				<c:when test="${endPage >= page.totalPage }">

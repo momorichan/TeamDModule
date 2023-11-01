@@ -70,9 +70,9 @@
 	
 	
 	<select id="SearchByCategory" parameterType="map" resultType="pvo">
-		select pnum, pname, image, price 
+		select pnum, pname, image, price, scnum 
 		from 
-		( select rownum r_num, p.* from ( select pnum, pname, image, price from product 
+		( select rownum r_num, p.* from ( select pnum, pname, image, price, scnum  from product 
 		<where>
 			<choose>
 				<when test="lcnum != null">

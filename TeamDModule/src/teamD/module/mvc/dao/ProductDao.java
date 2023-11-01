@@ -40,8 +40,35 @@ public class ProductDao implements ProductDaoInter{
 	}
 
 	@Override
-	public int getTotal(Map<String, String> paramMap) {
-		return ss.selectOne("product.totalCount",paramMap);
+	public int getTotal(Map<String, String> map) {
+		System.out.println("토탈카운트 실행 " );
+		
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+		    String key2 = entry.getKey();
+		    String value = entry.getValue();
+		    System.out.println("토탈카운트 맵 Key: " + key2 + ", Value: " + value);
+		}
+		
+		
+		String key = null;
+		int total = 0;
+		Map<String, String> fakemap = new HashMap<String, String>();
+
+		if (map.containsKey("lcnum")) {
+		    key = "lcnum";
+		} else if (map.containsKey("scnum")) {
+		    key = "scnum";
+		} 
+		
+		System.out.println("key : " + key);
+		if("0".equals(map.get(key))) {
+
+			total = ss.selectOne("product.totalCount", fakemap);
+		}else {
+			total = ss.selectOne("product.totalCount",map);
+		}
+		
+		return total;
 	}
 
 	@Override

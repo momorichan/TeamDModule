@@ -22,6 +22,16 @@ public class PageVO {
 		this.pagePerBlock=5;
 		System.out.println("페이지 처리 객체가 생성되었습니다.");
 	}
+	
+	
+	@Override
+	public String toString() {
+		return "PageVO [nowPage=" + nowPage + ", nowBlock=" + nowBlock + ", totalRecord=" + totalRecord
+				+ ", numPerPage=" + numPerPage + ", pagePerBlock=" + pagePerBlock + ", totalPage=" + totalPage
+				+ ", totalBlock=" + totalBlock + ", beginPerPage=" + beginPerPage + ", endPerPage=" + endPerPage + "]";
+	}
+
+
 	public int getNowPage() {
 		return nowPage;
 	}

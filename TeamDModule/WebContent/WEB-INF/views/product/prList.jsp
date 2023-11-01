@@ -24,6 +24,7 @@
 					<th>이미지</th>
 					<th>상품이름</th>
 					<th>가격</th>
+					<th>소분류</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -40,8 +41,10 @@
 				<%-- for end --%>
 			</tbody>
 			<tfoot>
+				<ul class="pagination">
+				</ul>
 				<%-- page영역 --%>
-				<%@include file="../temp/pageProcess.jsp"%>
+				<%-- <%@include file="../temp/pageProcess.jsp"%> --%>
 				<%-- 검색영역 --%>
 				<tr>
 					<td colspan="6" style="text-align: right;">
@@ -66,10 +69,93 @@
 	</div>
 </article>
 <script>
-function lclistfunction(selectedValue) {
+$(document).ready(function() {
+	searchValue = "";
+	cPage = 1;
+	page(searchValue, cPage);
+	
+	
+	$('[id^="page"]').on('click', function(event) {
+        cPage = $(this).text();
+        page("", cPage);
+        console.log(cPage);
+    });
+	
+ });
+
+$('#lcategory').on('change', function() {
+	lcnumber = $(this).val();
+	if(lcnumber == 0){
+		$('#scnum').empty();
+		$('#scnum').append('<option>없음</option>');
+	}
+	var begin = 1;
+	var end = 10;
+	lclistfunction(lcnumber, begin, end);
+    console.log(lcnumber);
+});
+
+
+$('#scnum').on('change', function() {
+	scnumber = $(this).val();
+	var begin = 1;
+	var end = 10;
+    sclistfunction(scnumber, begin, end);
+    console.log(scnumber);
+});
+
+
+function page(searchValue, cPage) {
+	var lcnum = $('#lcategory').val();
+	var scnum = $('#scnum').val();
+	var pageUrl = "${cPath}/pagination?searchValue=${searchValue}&cPage=" + cPage;
+	pageUrl += "&lcnum=" + lcnum + "&scnum=" + scnum;
+	$.ajax({
+        url: pageUrl,
+        type: "get",
+        dataType : 'json', 
+        success: function(pageData) {
+        	updatePage(pageData);
+        },
+    });
+}
+
+function updatePage(pageData) {
+    let paginationHTML = '';
+
+    // 이전 페이지 링크
+    if(pageData.currentPage > 1) {
+        paginationHTML += '<li class="page-item"><a class="page-link" href="#" onclick="fetchPaginationData(' + (data.currentPage - 1) + ', \'검색값\')">Previous</a></li>';
+    } else {
+        paginationHTML += '<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>';
+    }
+    
+    // 페이지 번호
+    for (let i = 1; i <= pageData.totalPages; i++) {
+        if (i === pageData.currentPage) {
+            paginationHTML += '<li class="page-item active"><a class="page-link" href="#">' + i + '</a></li>';
+        } else {
+            paginationHTML += '<li class="page-item"><a class="page-link" href="#" onclick="fetchPaginationData(' + i + ', \'검색값\')">' + i + '</a></li>';
+        }
+    }
+    
+    // 다음 페이지 링크
+    if(pageData.currentPage < pageData.totalPages) {
+        paginationHTML += '<li class="page-item"><a class="page-link" href="#" onclick="fetchPaginationData(' + (data.currentPage + 1) + ', \'검색값\')">Next</a></li>';
+    } else {
+        paginationHTML += '<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>';
+    }
+    
+    $(".pagination").html(paginationHTML);
+}
+
+
+function lclistfunction(selectedValue, begin, end) {
       
+	lcurl = "${cPath}/prlcList?lcnum=" + selectedValue;
+	lcurl += "&begin=" + begin + "&end=" + end;
        $.ajax({
-           url: "${cPath}/prlcList?lcnum=" + selectedValue,
+           url: lcurl,
            type: "get",
            dataType : 'json', 
            success: function(listMap) {
@@ -93,37 +179,27 @@ function lclistfunction(selectedValue) {
             	 var th = $('<th>');
             	 var td1 = $('<td>');
             	 var td2 = $('<td>');
+            	 var td3 = $('<td>');
+            	 var td4 = $('<td>');
             	 th.attr('scope', 'row');
             	 th.text(item.pnum);
-            	 td1.text(item.pname);
-            	 td2.text(item.price);
-            	 tr.append(th).append(td1).append(td2);
+            	 td1.text(item.image);
+            	 td2.text(item.pname);
+            	 td3.text(item.price);
+            	 td4.text(item.scnum);
+            	 tr.append(th).append(td1).append(td2).append(td3).append(td4);
                  $('#productlist').append(tr);
              });
            },
        });
 }
-$('#lcategory').on('change', function() {
-	lcnumber = $(this).val();
-	if(lcnumber == 0){
-		$('#scnum').empty();
-		$('#scnum').append('<option>없음</option>');
-	}
-	lclistfunction(lcnumber);
-    console.log(lcnumber);
-});
 
 
-$('#scnum').on('change', function() {
-	scnumber = $(this).val();
-    sclistfunction(scnumber);
-    console.log(scnumber);
-});
 
-
-function sclistfunction(selectedValue) {
+function sclistfunction(selectedValue, begin, end) {
     
 	scurl = "${cPath}/prscList?scnum=" + selectedValue;
+	scurl += "&begin=" + begin + "&end=" + end;
 	var lcValue = $("#lcategory").val();
     
 	if(selectedValue == '0'){
@@ -141,19 +217,26 @@ function sclistfunction(selectedValue) {
      	  sclist.forEach(item => {
      		 
          	 var tr = $('<tr>');
-         	 var th = $('<th>');
-         	 var td1 = $('<td>');
-         	 var td2 = $('<td>');
-         	 th.attr('scope', 'row');
-         	 th.text(item.pnum);
-         	 td1.text(item.pname);
-         	 td2.text(item.price);
-         	 tr.append(th).append(td1).append(td2);
+        	 var th = $('<th>');
+        	 var td1 = $('<td>');
+        	 var td2 = $('<td>');
+        	 var td3 = $('<td>');
+        	 var td4 = $('<td>');
+        	 th.attr('scope', 'row');
+        	 th.text(item.pnum);
+        	 td1.text(item.image);
+        	 td2.text(item.pname);
+        	 td3.text(item.price);
+        	 td4.text(item.scnum);
+        	 tr.append(th).append(td1).append(td2).append(td3).append(td4);
               $('#productlist').append(tr);
           });
         },
     });
 }
+
+
+
 
 
 </script>

@@ -12,7 +12,7 @@ public interface ProductDaoInter {
 	public List<LCategoryVO> lcList (); 
 	public List<SCategoryVO> scList(int lcnum);
 	public List<ProductVO> prList(Map<String, String> map);
-	public int getTotal(Map<String, String> paramMap);
+	public int getTotal(Map<String, String> map);
 	public List<ProductVO> productList(Map<String, String> map);
 	public List<ProductVO> SearchByCategoryList(Map<String, String> map);
 }
