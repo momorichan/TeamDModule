@@ -61,8 +61,7 @@
 				<option value="">없음</option>
 			</select> <input class="select-keyword round-orange-hover" type="text" name="keyword" id="keyword" placeholder="키워드 입력">
 			<button type="submit" class="normal_bigbtn">검색</button>
-
-			<button type="button" class="else_bigbtn" onclick="searchAll();">전체 검색</button>
+			<button type="button" class="else_bigbtn" onclick="location='prList'">전체 검색</button>
 		</div>
 	</div>
 </article>
