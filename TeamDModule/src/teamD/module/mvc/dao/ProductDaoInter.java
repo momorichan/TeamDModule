@@ -14,5 +14,5 @@ public interface ProductDaoInter {
 	public List<ProductVO> prList(Map<String, String> map);
 	public int getTotal(Map<String, String> paramMap);
 	public List<ProductVO> productList(Map<String, String> map);
-	
+	public List<ProductVO> SearchByCategoryList(int lcnum);
 }

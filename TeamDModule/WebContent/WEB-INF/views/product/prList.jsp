@@ -28,6 +28,11 @@
 				</tr>
 			</thead>
 			<tbody>
+			<tbody id="productlist">
+				<%-- for start 
+            ${vo.속성 } , ${map.key }
+            List<BoardVO> list => BoardVO => e
+            --%>
 				<c:forEach var="e" items="${list}">
 					<tr>
 						<!-- <th>번호</th> -->
@@ -44,24 +49,80 @@
 				<%@include file="../temp/pageProcess.jsp"%>
 				<%-- 검색영역 --%>
 				<tr>
-					<th colspan="6">
-						<%-- 기존의 리스트 모델로 요청을 보낸다. --%>
-						<form class="d-flex" method="post" action="prList">
-							<input class="form-control me-2" type="text" placeholder="Search.." name="searchValue" id="searchValue" style="width: 300px">
-							<button class="btn btn-outline-secondary" type="submit">Search</button>
-						</form>
-					</th>
-				</tr>
-				<tr>
 					<td colspan="6" style="text-align: right;">
 						<button type="button" class="btn btn-outline-secondary" onclick="location='upform'">글작성</button>
 					</td>
 				</tr>
 			</tfoot>
 		</table>
+
+		<div class="searchArea">
+			<input type="hidden" name="command" value="stList"> <select id="lcategory" name="lcategory" class="select-cate round-orange-hover">
+				<option value="0">선택</option>
+				<c:forEach var="category" items="${lclist}">
+					<option value="${category.lcnum}">${category.lcname}</option>
+				</c:forEach>
+			</select> <select id="scnum" name="scnum" class="select-cate round-orange-hover">
+				<option value="">없음</option>
+			</select> <input class="select-keyword round-orange-hover" type="text" name="keyword" id="keyword" placeholder="키워드 입력">
+			<button type="submit" class="normal_bigbtn">검색</button>
+
+			<button type="button" class="else_bigbtn" onclick="searchAll();">전체 검색</button>
+		</div>
+
+
+
 	</div>
 </article>
+<script>
+function sclistfunction(selectedValue) {
+      
+       $.ajax({
+           url: "${cPath}/prlist?lcnum=" + selectedValue,
+           type: "get",
+           dataType : 'json', 
+           success: function(listMap) {
+        	   console.log(listMap);
+        	   //카테고리 소분류를 등록한다.
+        	   $('#scnum').empty();
+        	   $('#scnum').append('<option>선택</option>');
+        	 listMap.sclist.forEach(item => {
+            	 var option = $('<option>');
+                 option.val(item.scnum);
+                 option.text(item.scname);
+                 $('#scnum').append(option);
+             });
+        	   
+        	   
+        	   //선택된 대분류 카테고리에 해당하는 상품들만 상품목록에 노출한다.
+        	   $('#productlist').empty();
+        	 listMap.sprlist.forEach(item => {
+        		 
+            	 var tr = $('<tr>');
+            	 var th = $('<th>');
+            	 var td1 = $('<td>');
+            	 var td2 = $('<td>');
+            	 th.attr('scope', 'row');
+            	 th.text(item.pnum);
+            	 td1.text(item.pname);
+            	 td2.text(item.price);
+            	 tr.append(th).append(td1).append(td2);
+                 $('#productlist').append(tr);
+             });
+           },
+       });
+}
+$('#lcategory').on('change', function() {
+	lcnumber = $(this).val();
+	if(lcnumber == 0){
+		$('#scnum').empty();
+		$('#scnum').append('<option>없음</option>');
+	}
+    sclistfunction(lcnumber);
+    console.log(lcnumber);
+});
 
+</script>
 
 <style>
 .searchCls {

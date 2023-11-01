@@ -46,4 +46,16 @@ public class ProductDao implements ProductDaoInter{
 	public List<ProductVO> productList(Map<String, String> map) {
 		return ss.selectList("product.prlist",map);
 	}
+
+	@Override
+	public List<ProductVO> SearchByCategoryList(int lcnum) {
+		List<ProductVO> list;
+		if(lcnum == 0) {
+			int all = 0;
+			list = ss.selectList("product.SearchByCategory", all);
+		}else {
+			list = ss.selectList("product.SearchByCategory", lcnum);
+		}
+		return list;
+	}
 }

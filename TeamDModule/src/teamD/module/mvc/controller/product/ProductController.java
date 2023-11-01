@@ -69,6 +69,9 @@ public class ProductController {
 	         model.addAttribute("list",list);
 	         model.addAttribute("searchValue",map.get("searchValue"));
 	         
+	         //대분류 카테고리를 모델에 추가
+	         model.addAttribute("lclist", productDaoInter.lcList());
+	         
 	      return "product/prList";
 	   }
 	

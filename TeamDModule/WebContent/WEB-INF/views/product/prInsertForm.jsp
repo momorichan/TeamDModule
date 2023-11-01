@@ -75,7 +75,6 @@
                     var option = $('<option>');
                     option.val(item.scnum);
                     option.text(item.scname);
-      
                     $('#scnum').append(option);
                 });
               },
