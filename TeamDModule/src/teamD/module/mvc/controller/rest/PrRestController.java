@@ -29,6 +29,8 @@ public class PrRestController {
 	public Map<String, Object> prlcList (@RequestParam Map<String, String> map){	
 		Map<String, Object> listMap = new HashMap<String, Object>();
 		List<ProductVO> list;
+		map.put("begin", "1");
+		map.put("end", "10");
 		list = dao.SearchByCategoryList(map);
 		listMap.put("sclist", dao.scList(Integer.parseInt(map.get("lcnum")))); 
 		listMap.put("sprlist", list);
@@ -39,6 +41,8 @@ public class PrRestController {
 	@GetMapping(value = "/prscList", produces = "application/json; charset=utf-8")
 	public List<ProductVO> prscList (@RequestParam Map<String, String> map){	
 		List<ProductVO> list;
+		map.put("begin", "1");
+		map.put("end", "10");
 		list = dao.SearchByCategoryList(map);
 		return list;
 	}

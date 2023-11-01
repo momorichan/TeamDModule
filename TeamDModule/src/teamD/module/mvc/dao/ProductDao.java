@@ -54,6 +54,10 @@ public class ProductDao implements ProductDaoInter{
 		List<ProductVO> list = new ArrayList<ProductVO>();
 		Map<String, String> fakemap = new HashMap<String, String>();
 		
+		fakemap.put("begin", "1");
+		fakemap.put("end", "10");
+		
+		
 		String key = null;
 		if (map.containsKey("lcnum")) {
 		    key = "lcnum";

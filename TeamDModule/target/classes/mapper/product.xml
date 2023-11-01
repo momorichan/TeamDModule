@@ -51,16 +51,6 @@
 
 	<select id="totalCount" resultType="int" parameterType="map">
 		select count(*) cnt from product
-		<if test="searchValue != null">
-			<where>
-				pname like '%'||#{searchValue}||'%'
-			</where>
-		</if>
-	</select>
-
-	<select id="SearchByCategory" parameterType="map"
-		resultType="pvo">
-		select * from product
 		<where>
 			<choose>
 				<when test="lcnum != null">
@@ -76,5 +66,31 @@
 				</when>		
 			</choose>
 		</where>
+	</select>
+	
+	
+	<select id="SearchByCategory" parameterType="map" resultType="pvo">
+		select pnum, pname, image, price 
+		from product
+		( select rownum r_num, p.* from ( select pnum, pname, image, price from product 
+		<where>
+			<choose>
+				<when test="lcnum != null">
+					scnum IN (SELECT scnum FROM scategory WHERE lcnum = #{lcnum})
+				</when>
+				<when test="scnum != null">
+					scnum  = #{scnum}
+				</when>		
+				<when test="lcnum != null and scnum != null">
+					scnum IN 
+					(SELECT scnum FROM scategory WHERE lcnum = 
+					 (SELECT lcnum FROM scategory WHERE scnum = #{scnum}))
+				</when>		
+			</choose>
+		</where>
+		order by pnum desc 
+		) p
+		) 
+		where p.r_num between #{begin} and #{end}
 	</select>
 </mapper>
