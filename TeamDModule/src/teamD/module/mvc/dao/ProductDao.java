@@ -61,10 +61,22 @@ public class ProductDao implements ProductDaoInter{
 		    key = "scnum";
 		}
 		
+		
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+		    String key2 = entry.getKey();
+		    String value = entry.getValue();
+		    System.out.println("Key: " + key2 + ", Value: " + value);
+		}
+
+		
 		if (key != null) {
 		    int value = Integer.parseInt(map.get(key));
-		    Map<String, String> targetMap = value == 0 ? fakemap : map;
-		    list = ss.selectList("product.SearchByCategory", targetMap);
+		    if(key == "lcnum" || (key == "scnum" && !"0".equals(map.get(key)))) {
+			    Map<String, String> targetMap = value == 0 ? fakemap : map;
+			    list = ss.selectList("product.SearchByCategory", targetMap);
+		    }else {
+		    	list = ss.selectList("product.SearchByCategory", map);
+		    }
 		}
 		return list;
 	}

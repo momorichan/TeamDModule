@@ -124,8 +124,15 @@ $('#scnum').on('change', function() {
 
 function sclistfunction(selectedValue) {
     
+	scurl = "${cPath}/prscList?scnum=" + selectedValue;
+	var lcValue = $("#lcategory").val();
+    
+	if(selectedValue == '0'){
+		scurl += '&lcnum=' + lcValue;
+	}
+	
     $.ajax({
-        url: "${cPath}/prscList?scnum=" + selectedValue,
+        url: scurl,
         type: "get",
         dataType : 'json', 
         success: function(sclist) {
