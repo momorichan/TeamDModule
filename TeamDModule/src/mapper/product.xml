@@ -17,19 +17,28 @@
 		select
 		scnum, lcnum, scname from scategory where lcnum = #{lcnum}
 	</select>
-	
-	
+
+
 	<select id="prlist" resultType="pvo" parameterType="map">
-		select pnum, pname, price, scnum,stock,pdetail, image, image2, image3
-		from product
-		<if test="searchValue != null">
-			<where>
-				pname like '%'||#{searchValue}||'%'
-			</where>
-		</if>
+		select pnum, pname, image, price
+		from
+		(
+			select rownum r_num, p.* from
+			(
+				select pnum, pname, image, price
+				from product
+		<!-- where scnum = #{scnum} -->
+				
+				<if test="">
+				<where>
+					
+				</where>
+				</if>
+		order by 1 desc
+		) p
+		)
+		where r_num between #{begin} and #{end}
 	</select>
-	
-	
 	<select id="totalCount" resultType="int" parameterType="map">
 		select count(*) cnt from product
 		<if test="searchValue != null">
@@ -38,19 +47,18 @@
 			</where>
 		</if>
 	</select>
-	
-	
 	<select id="SearchByCategory" parameterType="map" resultType="pvo">
 		SELECT * FROM product 
 		<where>
 			<choose>
 				<when test="lcnum != null">
 					scnum IN (SELECT scnum FROM scategory WHERE lcnum = #{lcnum})
+
 				</when>
 				<when test="scnum != null">
 					scnum  = #{scnum}
 				</when>
-			</choose>	
+			</choose>
 		</where>
 	</select>
-  </mapper>
+</mapper>
