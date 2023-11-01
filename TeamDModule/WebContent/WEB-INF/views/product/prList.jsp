@@ -27,7 +27,7 @@
 					<th>가격</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody id="productlist">
 				<%-- for start 
             ${vo.속성 } , ${map.key }
             List<BoardVO> list => BoardVO => e
@@ -48,19 +48,6 @@
 				<%@include file="../temp/pageProcess.jsp"%>
 				<%-- 검색영역 --%>
 				<tr>
-					<th colspan="6">
-						<%-- 기존의 리스트 모델로 요청을 보낸다. --%>
-						<form class="d-flex" method="post" action="uplist">
-							<select class="form-control btn-mini" name="searchType" id="searchType" style="margin-left: 120px;">
-								<option value="">검색</option>
-								<option value="1">상품명</option>
-								<option value="2">카테고리</option>
-							</select> <input class="form-control me-2" type="text" placeholder="Search.." name="searchValue" id="searchValue" style="width: 300px">
-							<button class="btn btn-outline-secondary" type="submit">Search</button>
-						</form>
-					</th>
-				</tr>
-				<tr>
 					<td colspan="6" style="text-align: right;">
 						<button type="button" class="btn btn-outline-secondary" onclick="location='upform'">글작성</button>
 					</td>
@@ -68,24 +55,19 @@
 			</tfoot>
 		</table>
 
-
-
 		<div class="searchArea">
-			<input type="hidden" name="command" value="stList"> <select class="select-mode round-orange-hover" id="mode" name="mode">
-				<option value="all" selected="selected">선택해 주세요
-				<option value="stname">가게명
-				<option value="category">카테고리
-			</select> <select class="select-cate round-orange-hover" id="categoryList" name="categoryList">
-				<option value="all" selected="selected">카테고리 리스트
-				<option value="양식">양식
-				<option value="중식">중식
-				<option value="일식">일식
-				<option value="한식">한식
-				<option value="패스트푸드">패스트푸드
-				<option value="치킨">치킨
-				<option value="피자">피자
-				<option value="카페">카페
-			</select> <input class="select-keyword round-orange-hover" type="text" name="keyword" id="keyword" placeholder="키워드 입력">
+			<input type="hidden" name="command" value="stList"> 
+			<select id="lcategory" name="lcategory" class="select-cate round-orange-hover">
+				<option value="0">선택</option>
+               <c:forEach var="category" items="${lclist}"> 
+                  <option value="${category.lcnum}">${category.lcname}</option>
+               </c:forEach>
+            </select>  
+            
+			<select id="scnum" name="scnum" class="select-cate round-orange-hover">
+				<option value="">없음</option>
+            </select> 
+			<input class="select-keyword round-orange-hover" type="text" name="keyword" id="keyword" placeholder="키워드 입력">
 			<button type="submit" class="normal_bigbtn">검색</button>
 
 			<button type="button" class="else_bigbtn" onclick="searchAll();">전체 검색</button>
@@ -94,7 +76,55 @@
 
 	</div>
 </article>
+<script>
+function sclistfunction(selectedValue) {
+      
+       $.ajax({
+           url: "${cPath}/prlist?lcnum=" + selectedValue,
+           type: "get",
+           dataType : 'json', 
+           success: function(listMap) {
+        	   console.log(listMap);
+        	   //카테고리 소분류를 등록한다.
+        	   $('#scnum').empty();
+        	   $('#scnum').append('<option>선택</option>');
+        	 listMap.sclist.forEach(item => {
+            	 var option = $('<option>');
+                 option.val(item.scnum);
+                 option.text(item.scname);
+                 $('#scnum').append(option);
+             });
+        	   
+        	   
+        	   //선택된 대분류 카테고리에 해당하는 상품들만 상품목록에 노출한다.
+        	   $('#productlist').empty();
+        	 listMap.sprlist.forEach(item => {
+        		 
+            	 var tr = $('<tr>');
+            	 var th = $('<th>');
+            	 var td1 = $('<td>');
+            	 var td2 = $('<td>');
+            	 th.attr('scope', 'row');
+            	 th.text(item.pnum);
+            	 td1.text(item.pname);
+            	 td2.text(item.price);
+            	 tr.append(th).append(td1).append(td2);
+                 $('#productlist').append(tr);
+             });
+           },
+       });
+}
+$('#lcategory').on('change', function() {
+	lcnumber = $(this).val();
+	if(lcnumber == 0){
+		$('#scnum').empty();
+		$('#scnum').append('<option>없음</option>');
+	}
+    sclistfunction(lcnumber);
+    console.log(lcnumber);
+});
 
+</script>
 
 <style>
 .searchCls {
