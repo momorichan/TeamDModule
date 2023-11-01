@@ -41,8 +41,10 @@
 				<%-- for end --%>
 			</tbody>
 			<tfoot>
-				<ul class="pagination">
+			<ul class="pagination">
 				</ul>
+			
+				
 				<%-- page영역 --%>
 				<%-- <%@include file="../temp/pageProcess.jsp"%> --%>
 				<%-- 검색영역 --%>
@@ -75,23 +77,23 @@ $(document).ready(function() {
 	page(searchValue, cPage);
 	
 	
-	$('[id^="page"]').on('click', function(event) {
-        cPage = $(this).text();
-        page("", cPage);
-        console.log(cPage);
-    });
+	$(".pagination").on('click', '[id^="page"]', function(event) {
+	    cPage = $(this).text();
+	    page("", cPage);
+	    console.log(cPage);
+	});
 	
- });
+
 
 $('#lcategory').on('change', function() {
 	lcnumber = $(this).val();
 	if(lcnumber == 0){
 		$('#scnum').empty();
-		$('#scnum').append('<option>없음</option>');
+		$('#scnum').append('<option value="0">없음</option>');
 	}
 	var begin = 1;
 	var end = 10;
-	lclistfunction(lcnumber, begin, end);
+	page("", 1);
     console.log(lcnumber);
 });
 
@@ -100,7 +102,7 @@ $('#scnum').on('change', function() {
 	scnumber = $(this).val();
 	var begin = 1;
 	var end = 10;
-    sclistfunction(scnumber, begin, end);
+	page("", 1);
     console.log(scnumber);
 });
 
@@ -108,7 +110,12 @@ $('#scnum').on('change', function() {
 function page(searchValue, cPage) {
 	var lcnum = $('#lcategory').val();
 	var scnum = $('#scnum').val();
-	var pageUrl = "${cPath}/pagination?searchValue=${searchValue}&cPage=" + cPage;
+	console.log("lcnum : " + lcnum);
+	console.log("scnum : " + scnum);
+	if(scnum == ''){
+		scnum = '0';
+	}
+	var pageUrl = "${cPath}/pagination?searchValue="+ searchValue +"&cPage=" + cPage;
 	pageUrl += "&lcnum=" + lcnum + "&scnum=" + scnum;
 	$.ajax({
         url: pageUrl,
@@ -116,38 +123,54 @@ function page(searchValue, cPage) {
         dataType : 'json', 
         success: function(pageData) {
         	updatePage(pageData);
+        	var begin = pageData.page.beginPerPage;
+        	var end = pageData.page.endPerPage;
+        	console.log("pageData.page.beginPerPage : " + begin);
+        	console.log("pageData.page.endPerPage : " + end);
+        	
+        	if(scnum == '0' && lcnum == '0'){
+        		lclistfunction(lcnum, begin, end);
+        	}else if(scnum != '0'){
+        		sclistfunction(scnum, begin, end);
+        	}else{
+        		lclistfunction(lcnum, begin, end);
+        	}
+        	console.log("끝");
         },
     });
 }
 
 function updatePage(pageData) {
+	console.log(pageData);
     let paginationHTML = '';
 
     // 이전 페이지 링크
-    if(pageData.currentPage > 1) {
-        paginationHTML += '<li class="page-item"><a class="page-link" href="#" onclick="fetchPaginationData(' + (data.currentPage - 1) + ', \'검색값\')">Previous</a></li>';
+    if(pageData.page.nowPage > 1) {
+        paginationHTML += '<li class="page-item"><button class="page-link" id="pagePrevious">Previous</button></li>';
     } else {
-        paginationHTML += '<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>';
+        paginationHTML += '<li class="page-item disabled"><button class="page-link" id="pagePrevious">Previous</button></li>';
     }
     
     // 페이지 번호
-    for (let i = 1; i <= pageData.totalPages; i++) {
-        if (i === pageData.currentPage) {
-            paginationHTML += '<li class="page-item active"><a class="page-link" href="#">' + i + '</a></li>';
-        } else {
-            paginationHTML += '<li class="page-item"><a class="page-link" href="#" onclick="fetchPaginationData(' + i + ', \'검색값\')">' + i + '</a></li>';
-        }
-    }
+	for (let i = pageData.startPage; i <= pageData.endPage; i++) {
+	    if (i === pageData.page.nowPage) {
+	        paginationHTML += '<li class="page-item active"><button class="page-link" id="page'+ i +'">' + i + '</button></li>';
+	    } else {
+	        paginationHTML += '<li class="page-item"><button class="page-link" id="page'+ i +'">' + i + '</button></li>';
+	    }
+	}
+
     
     // 다음 페이지 링크
-    if(pageData.currentPage < pageData.totalPages) {
-        paginationHTML += '<li class="page-item"><a class="page-link" href="#" onclick="fetchPaginationData(' + (data.currentPage + 1) + ', \'검색값\')">Next</a></li>';
+    if(pageData.page.nowPage < pageData.page.totalPage) {
+        paginationHTML += '<li class="page-item"><button class="page-link" id="pageNext">Next</button></li>';
     } else {
-        paginationHTML += '<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>';
+        paginationHTML += '<li class="page-item disabled"><button class="page-link" id="pageNext">Next</button></li>';
     }
     
     $(".pagination").html(paginationHTML);
 }
+
 
 
 function lclistfunction(selectedValue, begin, end) {
@@ -211,7 +234,8 @@ function sclistfunction(selectedValue, begin, end) {
         type: "get",
         dataType : 'json', 
         success: function(sclist) {
-     	   console.log(sclist);
+      	   console.log(sclist);
+     	   console.log("이게 실행되는 건가?");
      	   //선택된 대분류 카테고리에 해당하는 상품들만 상품목록에 노출한다.
      	   $('#productlist').empty();
      	  sclist.forEach(item => {
@@ -235,7 +259,7 @@ function sclistfunction(selectedValue, begin, end) {
     });
 }
 
-
+});
 
 
 

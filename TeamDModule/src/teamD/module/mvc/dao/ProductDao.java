@@ -48,24 +48,20 @@ public class ProductDao implements ProductDaoInter{
 		    String value = entry.getValue();
 		    System.out.println("토탈카운트 맵 Key: " + key2 + ", Value: " + value);
 		}
+		//맵에는 무조건 lcnum, scnum이 있다.
 		
 		
-		String key = null;
 		int total = 0;
 		Map<String, String> fakemap = new HashMap<String, String>();
 
-		if (map.containsKey("lcnum")) {
-		    key = "lcnum";
-		} else if (map.containsKey("scnum")) {
-		    key = "scnum";
-		} 
-		
-		System.out.println("key : " + key);
-		if("0".equals(map.get(key))) {
-
+		if("0".equals(map.get("lcnum"))) {
 			total = ss.selectOne("product.totalCount", fakemap);
-		}else {
-			total = ss.selectOne("product.totalCount",map);
+		}else if(!"0".equals(map.get("lcnum")) && "0".equals(map.get("scnum"))){
+			fakemap.put("lcnum", map.get("lcnum"));
+			total = ss.selectOne("product.totalCount",fakemap);
+		}else if(!"0".equals(map.get("scnum"))) {
+			fakemap.put("scnum", map.get("scnum"));
+			total = ss.selectOne("product.totalCount",fakemap);
 		}
 		
 		return total;
@@ -81,8 +77,8 @@ public class ProductDao implements ProductDaoInter{
 		List<ProductVO> list = new ArrayList<ProductVO>();
 		Map<String, String> fakemap = new HashMap<String, String>();
 		
-		fakemap.put("begin", "1");
-		fakemap.put("end", "10");
+		fakemap.put("begin", map.get("begin"));
+		fakemap.put("end", map.get("end"));
 		
 		
 		String key = null;
@@ -93,11 +89,6 @@ public class ProductDao implements ProductDaoInter{
 		}
 		
 		
-		for (Map.Entry<String, String> entry : map.entrySet()) {
-		    String key2 = entry.getKey();
-		    String value = entry.getValue();
-		    System.out.println("Key: " + key2 + ", Value: " + value);
-		}
 
 		
 		if (key != null) {

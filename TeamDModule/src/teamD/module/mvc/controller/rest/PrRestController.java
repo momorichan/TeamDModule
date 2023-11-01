@@ -42,8 +42,6 @@ public class PrRestController {
 	@GetMapping(value = "/prscList", produces = "application/json; charset=utf-8")
 	public List<ProductVO> prscList (@RequestParam Map<String, String> map){	
 		List<ProductVO> list;
-		map.put("begin", "1");
-		map.put("end", "10");
 		list = dao.SearchByCategoryList(map);
 		return list;
 	}
@@ -80,9 +78,6 @@ public class PrRestController {
         map.put("begin",String.valueOf(pageVO.getBeginPerPage()));
         map.put("end",String.valueOf(pageVO.getEndPerPage()));
         map.putAll(paramMap);
-        for(Map.Entry<String , String> e : map.entrySet()) {
-           System.out.println(e.getKey()+","+e.getValue());
-        }
         List<ProductVO> list = dao.SearchByCategoryList(map);
         System.out.println("Size : " + list.size());
         int StartPage = (int)((pageVO.getNowPage() - 1) / pageVO.getPagePerBlock()) * pageVO.getPagePerBlock() +1;
