@@ -71,7 +71,7 @@
 	
 	<select id="SearchByCategory" parameterType="map" resultType="pvo">
 		select pnum, pname, image, price 
-		from product
+		from 
 		( select rownum r_num, p.* from ( select pnum, pname, image, price from product 
 		<where>
 			<choose>
@@ -91,6 +91,6 @@
 		order by pnum desc 
 		) p
 		) 
-		where p.r_num between #{begin} and #{end}
+		where r_num between #{begin} and #{end}
 	</select>
 </mapper>
