@@ -28,12 +28,7 @@
 				select pnum, pname, image, price
 				from product
 		<!-- where scnum = #{scnum} -->
-				
-				<if test="">
-				<where>
-					
-				</where>
-				</if>
+			
 		order by 1 desc
 		) p
 		)
