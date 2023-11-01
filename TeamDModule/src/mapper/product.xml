@@ -38,21 +38,15 @@
 	</select>
 	<select id="SearchByCategory" parameterType="int" resultType="pvo">
 		SELECT * FROM product 
-		<if test="lcnum != null or scnum != null">
-			<where>
-				<choose>
-					<when test="lcnum != null">
-						scnum IN (SELECT scnum FROM scategory WHERE lcnum = #{lcnum})
-					</when>
-					<when test="scnum != null">
-						scnum  = #{scnum}
-					</when>
-					<when test="all != null">
-					</when>
-					<otherwise>
-					</otherwise>
-				</choose>	
-			</where>
-		</if>
+		<where>
+			<choose>
+				<when test="lcnum != 0">
+					scnum IN (SELECT scnum FROM scategory WHERE lcnum = #{lcnum})
+				</when>
+				<when test="scnum != 0">
+					scnum  = #{scnum}
+				</when>
+			</choose>	
+		</where>
 	</select>
   </mapper>
