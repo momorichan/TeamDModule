@@ -27,6 +27,7 @@
 					<th>가격</th>
 				</tr>
 			</thead>
+			<tbody>
 			<tbody id="productlist">
 				<%-- for start 
             ${vo.속성 } , ${map.key }
@@ -36,7 +37,7 @@
 					<tr>
 						<!-- <th>번호</th> -->
 						<th scope="row">${e.pnum}</th>
-
+						<td>이미지</td>
 						<td>${e.pname}</td>
 						<td><fmt:formatNumber type="number" value="${e.price}" pattern="###,###" /></td>
 					</tr>
@@ -56,18 +57,14 @@
 		</table>
 
 		<div class="searchArea">
-			<input type="hidden" name="command" value="stList"> 
-			<select id="lcategory" name="lcategory" class="select-cate round-orange-hover">
+			<input type="hidden" name="command" value="stList"> <select id="lcategory" name="lcategory" class="select-cate round-orange-hover">
 				<option value="0">선택</option>
-               <c:forEach var="category" items="${lclist}"> 
-                  <option value="${category.lcnum}">${category.lcname}</option>
-               </c:forEach>
-            </select>  
-            
-			<select id="scnum" name="scnum" class="select-cate round-orange-hover">
+				<c:forEach var="category" items="${lclist}">
+					<option value="${category.lcnum}">${category.lcname}</option>
+				</c:forEach>
+			</select> <select id="scnum" name="scnum" class="select-cate round-orange-hover">
 				<option value="">없음</option>
-            </select> 
-			<input class="select-keyword round-orange-hover" type="text" name="keyword" id="keyword" placeholder="키워드 입력">
+			</select> <input class="select-keyword round-orange-hover" type="text" name="keyword" id="keyword" placeholder="키워드 입력">
 			<button type="submit" class="normal_bigbtn">검색</button>
 
 			<button type="button" class="else_bigbtn" onclick="searchAll();">전체 검색</button>

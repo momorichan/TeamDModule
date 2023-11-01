@@ -33,7 +33,7 @@ public class ProductDao implements ProductDaoInter{
 	}
 
 	@Override
-	public List<ProductVO> prList() {
+	public List<ProductVO> prList(Map<String, String> map) {
 		return ss.selectList("product.prlist");
 	}
 
