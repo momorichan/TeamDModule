@@ -28,15 +28,11 @@
 				</tr>
 			</thead>
 			<tbody>
-				<%-- for start 
-            ${vo.속성 } , ${map.key }
-            List<BoardVO> list => BoardVO => e
-            --%>
 				<c:forEach var="e" items="${list}">
 					<tr>
 						<!-- <th>번호</th> -->
 						<th scope="row">${e.pnum}</th>
-
+						<td>이미지</td>
 						<td>${e.pname}</td>
 						<td><fmt:formatNumber type="number" value="${e.price}" pattern="###,###" /></td>
 					</tr>
