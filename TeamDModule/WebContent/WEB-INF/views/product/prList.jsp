@@ -75,17 +75,17 @@
 	</div>
 </article>
 <script>
-function sclistfunction(selectedValue) {
+function lclistfunction(selectedValue) {
       
        $.ajax({
-           url: "${cPath}/prlist?lcnum=" + selectedValue,
+           url: "${cPath}/prlcList?lcnum=" + selectedValue,
            type: "get",
            dataType : 'json', 
            success: function(listMap) {
         	   console.log(listMap);
         	   //카테고리 소분류를 등록한다.
         	   $('#scnum').empty();
-        	   $('#scnum').append('<option>선택</option>');
+        	   $('#scnum').append('<option value="0">선택</option>');
         	 listMap.sclist.forEach(item => {
             	 var option = $('<option>');
                  option.val(item.scnum);
@@ -118,9 +118,45 @@ $('#lcategory').on('change', function() {
 		$('#scnum').empty();
 		$('#scnum').append('<option>없음</option>');
 	}
-    sclistfunction(lcnumber);
+	lclistfunction(lcnumber);
     console.log(lcnumber);
 });
+
+
+$('#scnum').on('change', function() {
+	scnumber = $(this).val();
+    sclistfunction(scnumber);
+    console.log(scnumber);
+});
+
+
+function sclistfunction(selectedValue) {
+    
+    $.ajax({
+        url: "${cPath}/prscList?scnum=" + selectedValue,
+        type: "get",
+        dataType : 'json', 
+        success: function(sclist) {
+     	   console.log(sclist);
+     	   //선택된 대분류 카테고리에 해당하는 상품들만 상품목록에 노출한다.
+     	   $('#productlist').empty();
+     	  sclist.forEach(item => {
+     		 
+         	 var tr = $('<tr>');
+         	 var th = $('<th>');
+         	 var td1 = $('<td>');
+         	 var td2 = $('<td>');
+         	 th.attr('scope', 'row');
+         	 th.text(item.pnum);
+         	 td1.text(item.pname);
+         	 td2.text(item.price);
+         	 tr.append(th).append(td1).append(td2);
+              $('#productlist').append(tr);
+          });
+        },
+    });
+}
+
 
 </script>
 

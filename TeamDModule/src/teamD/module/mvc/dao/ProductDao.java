@@ -1,5 +1,7 @@
 package teamD.module.mvc.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,14 +50,23 @@ public class ProductDao implements ProductDaoInter{
 	}
 
 	@Override
-	public List<ProductVO> SearchByCategoryList(int lcnum) {
-		List<ProductVO> list;
-		if(lcnum == 0) {
-			int all = 0;
-			list = ss.selectList("product.SearchByCategory", all);
-		}else {
-			list = ss.selectList("product.SearchByCategory", lcnum);
+	public List<ProductVO> SearchByCategoryList(Map<String, String> map) {
+		List<ProductVO> list = new ArrayList<ProductVO>();
+		Map<String, String> fakemap = new HashMap<String, String>();
+		
+		String key = null;
+		if (map.containsKey("lcnum")) {
+		    key = "lcnum";
+		} else if (map.containsKey("scnum")) {
+		    key = "scnum";
+		}
+		
+		if (key != null) {
+		    int value = Integer.parseInt(map.get(key));
+		    Map<String, String> targetMap = value == 0 ? fakemap : map;
+		    list = ss.selectList("product.SearchByCategory", targetMap);
 		}
 		return list;
 	}
+
 }

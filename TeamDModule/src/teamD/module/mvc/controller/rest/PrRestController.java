@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import teamD.module.mvc.dao.ProductDaoInter;
@@ -24,15 +25,22 @@ public class PrRestController {
 		return list;
 	}
 
-	@GetMapping(value = "/prlist", produces = "application/json; charset=utf-8")
-	public Map<String, Object> prList (int lcnum, int scnum){	
+	@GetMapping(value = "/prlcList", produces = "application/json; charset=utf-8")
+	public Map<String, Object> prlcList (@RequestParam Map<String, String> map){	
 		Map<String, Object> listMap = new HashMap<String, Object>();
 		List<ProductVO> list;
-		list = dao.SearchByCategoryList(lcnum);
-		
-		listMap.put("sclist", dao.scList(lcnum)); 
+		list = dao.SearchByCategoryList(map);
+		listMap.put("sclist", dao.scList(Integer.parseInt(map.get("lcnum")))); 
 		listMap.put("sprlist", list);
 		return listMap;
+	}
+	
+	
+	@GetMapping(value = "/prscList", produces = "application/json; charset=utf-8")
+	public List<ProductVO> prscList (@RequestParam Map<String, String> map){	
+		List<ProductVO> list;
+		list = dao.SearchByCategoryList(map);
+		return list;
 	}
 	
 }

@@ -28,6 +28,8 @@
 			</where>
 		</if>
 	</select>
+	
+	
 	<select id="totalCount" resultType="int" parameterType="map">
 		select count(*) cnt from product
 		<if test="searchValue != null">
@@ -36,14 +38,16 @@
 			</where>
 		</if>
 	</select>
-	<select id="SearchByCategory" parameterType="int" resultType="pvo">
+	
+	
+	<select id="SearchByCategory" parameterType="map" resultType="pvo">
 		SELECT * FROM product 
 		<where>
 			<choose>
-				<when test="lcnum != 0">
+				<when test="lcnum != null">
 					scnum IN (SELECT scnum FROM scategory WHERE lcnum = #{lcnum})
 				</when>
-				<when test="scnum != 0">
+				<when test="scnum != null">
 					scnum  = #{scnum}
 				</when>
 			</choose>	
