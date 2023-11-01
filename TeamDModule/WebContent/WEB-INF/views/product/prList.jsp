@@ -11,7 +11,6 @@
 	</ul>
 	<div class="container">
 		<table class="table table-bordered" id="upboardTable">
-
 			<thead>
 				<tr>
 					<th colspan="6"><select id="sv" name="sv">
@@ -29,10 +28,6 @@
 			</thead>
 			<tbody>
 			<tbody id="productlist">
-				<%-- for start 
-            ${vo.속성 } , ${map.key }
-            List<BoardVO> list => BoardVO => e
-            --%>
 				<c:forEach var="e" items="${list}">
 					<tr>
 						<!-- <th>번호</th> -->
@@ -69,9 +64,6 @@
 
 			<button type="button" class="else_bigbtn" onclick="searchAll();">전체 검색</button>
 		</div>
-
-
-
 	</div>
 </article>
 <script>

@@ -2,7 +2,7 @@
 	pageEncoding="EUC-KR"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- temp/pageProcess.jsp --%>
-<c:set var="pageurl" value="?num=${num}&searchType=${searchType}&searchValue=${searchValue}&cPage" />
+<c:set var="pageurl" value="?searchValue=${searchValue}&cPage" />
 		<ul class="pagination" style="margin: 0 auto; width: 35%">
 			<%-- 이전페이지 --%>
 			<c:choose>

@@ -25,7 +25,7 @@ public class PrRestController {
 	}
 
 	@GetMapping(value = "/prlist", produces = "application/json; charset=utf-8")
-	public Map<String, Object> prList (int lcnum, int scnum){	
+	public Map<String, Object> prList (int lcnum){	
 		Map<String, Object> listMap = new HashMap<String, Object>();
 		List<ProductVO> list;
 		list = dao.SearchByCategoryList(lcnum);
