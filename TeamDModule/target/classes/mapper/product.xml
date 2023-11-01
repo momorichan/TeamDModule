@@ -41,6 +41,8 @@
 					<when test="scnum != null">
 						scnum  = #{scnum}
 					</when>
+					<when test="all != null">
+					</when>
 					<otherwise>
 					</otherwise>
 				</choose>	
