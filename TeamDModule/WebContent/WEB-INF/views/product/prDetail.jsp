@@ -1,192 +1,211 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@include file="../temp/header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
-	<style type="text/css">
-		.container{margin-top: 5px;}
-		.card{margin-left:auto;margin-right:auto;}
-		.leftside{margin-left:0px;}
-		.card_borderless{border:0px;}
-		
-		.small_image{width:100px;height:100px;margin:2px;border-radius:5px;}
-		#totalprice{color:red;font-size: 20px;font-weight:bolder;}
-		.cart{background-color:black;border:1px solid black;} /* ì†ì„± í‘œê¸°ë²• */
-		.rightnow{background-color:red;border:1px solid red;}
-		#qty{margin:-10px;border:0px;font-size:0.7rem;}	
-		.plus, .minus{font-size:1.1rem;}	
-	</style>
-	
-	<link rel="stylesheet" href="./../css/jquery-picZoomer.css">
-	<script src="./../js/jquery.picZoomer.js"></script>
-	
-	<script>
-		/* const í‚¤ì›Œë“œëŠ” ì½ê¸° ì „ìš©(ìë°”ì˜ finalê³¼ ë™ì¼ ê°œë…)*/
-		const maxPurchaseSize = 5 ; /* ìµœëŒ€ êµ¬ë§¤ ê°€ëŠ¥ ê°œìˆ˜ */
-		
-		/*var price = 10000*/ ; /* ë‹¨ê°€ */
-	
-		$(document).ready(function(){
-			var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-			var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-	 			return new bootstrap.Popover(popoverTriggerEl);
-			});
-			
-			var price = '${bean.price}';
-			
-			$('#qty').innerWidth($('.minus').innerWidth() - 3);
-			$('#totalprice').text('0') ; /* ìµœì´ˆ ì‹œì‘ì‹œ ê¸ˆì•¡ì„ 0ìœ¼ë¡œ ì„¤ì • */
-			
-			/* attr() í•¨ìˆ˜ëŠ” ì†ì„±(attribute)ì„ ì½ê±°ë‚˜ ì“°ê¸° ìœ„í•œ í•¨ìˆ˜ */
-			$('.small_image').click(function(){
-				$('.active_image').attr('src', $(this).attr('src')) ;
-			});
-			
-			$('.plus').click(function(){  /* ì‚¬ìš©ìê°€ + ë²„íŠ¼ì„ í´ë¦­í•¨ */
-				var qty = $('#qty').val();
-				if(qty == maxPurchaseSize){
-					alert('ìµœëŒ€ ' + maxPurchaseSize + 'ê°œ ê¹Œì§€ë§Œ ì£¼ë¬¸ì´ ê°€ëŠ¥í•©ë‹ˆë‹¤.');
-					return ; /* ë”ì´ìƒ ì§„í–‰í•˜ì§€ ì•Šë„ë¡ í• ê»˜ìš”. */
-				}
-				/* Number ê°ì²´ëŠ” Integer.parseInt()ì™€ ë™ì¼í•œ íš¨ê³¼ */
-				var newQty = Number(qty) + 1 ;
-				if(qty == ''){
-					$('#qty').val('1');
-				}else{
-					$('#qty').val(newQty) ;
-				}
-				var amount = newQty*price ;
-				$('#totalprice').text(amount.toLocaleString()) ;
-			});
-			 
-			$('.minus').click(function(){ /* ì‚¬ìš©ìê°€ - ë²„íŠ¼ì„ í´ë¦­í•¨ */
-				var qty = $('#qty').val();
-				if(qty == '0'){
-					alert('ìµœì†Œ 1ê°œ ì´ìƒ êµ¬ë§¤í•˜ì…”ì•¼ í•©ë‹ˆë‹¤.');
-					return ;
-				}
-				
-				var newQty = Number(qty) - 1 ;
-				if(qty == ''){
-					$('#qty').val('');
-					$('#totalprice').text('0') ;
-				}else{
-					$('#qty').val(newQty) ;
-					
-					var amount = newQty*price ;
-					$('#totalprice').text(amount.toLocaleString()) ;
-				}				
-			});
-			
-			$('#qty').blur(function(){ /* ìˆ˜ëŸ‰ ì…ë ¥ë€ì´ í¬ì»¤ìŠ¤ë¥¼ ìƒì„ ë•Œ */
-				var qty = $('#qty').val();
-			
-				if(qty == '' || isNaN(qty) == true){
-					alert('0ì´ìƒ' + maxPurchaseSize + 'ì´í•˜ì˜ ìˆ«ìë§Œ ê°€ëŠ¥í•©ë‹ˆë‹¤.' );
-					$('#qty').val('0');
-					$('#qty').focus();
-					return ;
-				}
-				
-				if(isNaN(qty) == false){
-					var newQty = Number(qty) ;
-					if(newQty < 0 || newQty > maxPurchaseSize){
-						alert('0ì´ìƒ' + maxPurchaseSize + 'ì´í•˜ì˜ ìˆ«ìë§Œ ê°€ëŠ¥í•©ë‹ˆë‹¤.' );
-						$('#qty').val('0');
-						$('#qty').focus();
-						return ;
-					}
-				}
-			});
-			
-			$('.cart').click(function(){ /* ì¥ë°”êµ¬ë‹ˆ í´ë¦­ */
-				var qty = $('#qty').val();
-				if(qty < 1 || qty > 5){
-					alert('ìµœì†Œ 1ê°œ ì´ìƒ ì¹´íŠ¸ì— ë‹´ì„ ìˆ˜ ìˆìŠµë‹ˆë‹¤.' );
-					return ;
-				}
-			});
-			
-			$('.rightnow').click(function(){ /* ì¦‰ì‹œ êµ¬ë§¤ í´ë¦­ */
-				var qty = $('#qty').val();
-				if(qty < 1 || qty > 5){
-					alert('ì¦‰ì‹œ êµ¬ë§¤ëŠ” ìµœì†Œ 1ê°œ ì´ìƒ ê°€ëŠ¥í•©ë‹ˆë‹¤.' );
-					return ;
-				}
-			});
-			
-			$('.picZoomer').picZoomer();
-		});
-		
-	</script>	
+   <title>Insert title here</title>
+   <style type="text/css">
+      .container{margin-top: 5px;}
+      .card{margin-left:auto;margin-right:auto;}
+      .leftside{margin-left:0px;}
+      .card_borderless{border:0px;}
+      
+      .small_image{width:100px;height:100px;margin:2px;border-radius:5px;}
+      #totalprice{color:red;font-size: 20px;font-weight:bolder;}
+      .cart{background-color:black;border:1px solid black;} /* ¼Ó¼º Ç¥±â¹ı */
+      .rightnow{background-color:red;border:1px solid red;}
+      #qty{margin:-10px;border:0px;font-size:0.7rem;}   
+      .plus, .minus{font-size:1.1rem;}   
+   </style>
+   <c:set var="lcname" value="${lcategory.lcname }"/>
+   <c:forEach var="scategories" items="${lcategory.scategories }">
+      <c:set var="scname" value="${scategories.scname }"/>
+   <c:forEach var="products" items="${scategories.products}">
+      <c:set var="pnum" value="${products.pnum }"/>   
+      <c:set var="pname" value="${products.pname }"/>   
+      <c:set var="price" value="${products.price }"/>   
+      <c:set var="stock" value="${products.stock }"/>
+      <c:set var="pdetail" value="${products.pdetail }"/>
+      <c:set var="image" value="${products.image }"/>
+      <c:set var="image2" value="${products.image2 }"/>
+      <c:set var="image3" value="${products.image3 }"/>
+   </c:forEach>
+   </c:forEach>
+   
+   
+   
+   <script>
+      /* const Å°¿öµå´Â ÀĞ±â Àü¿ë(ÀÚ¹ÙÀÇ final°ú µ¿ÀÏ °³³ä)*/
+      // const maxPurchaseSize = 5 ; /* ÃÖ´ë ±¸¸Å °¡´É °³¼ö */
+      
+      /*var price = 10000*/;  /* ´Ü°¡ */
+      var price = ${price};
+      $(document).ready(function(){
+         var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+         var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+             return new bootstrap.Popover(popoverTriggerEl);
+         });
+         
+         
+         
+         $('#qty').innerWidth($('.minus').innerWidth() - 3);
+         $('#totalprice').text('0') ; /* ÃÖÃÊ ½ÃÀÛ½Ã ±İ¾×À» 0À¸·Î ¼³Á¤ */
+         
+         /* attr() ÇÔ¼ö´Â ¼Ó¼º(attribute)À» ÀĞ°Å³ª ¾²±â À§ÇÑ ÇÔ¼ö */
+         $('.small_image').click(function(){
+            $('.active_image').attr('src', $(this).attr('src')) ;
+         });
+         
+         $('.plus').click(function(){  /* »ç¿ëÀÚ°¡ + ¹öÆ°À» Å¬¸¯ÇÔ */
+            event.preventDefault(); 
+            var qty = $('#qty').val();
+            /* if(qty == maxPurchaseSize){
+               alert('ÃÖ´ë ' + maxPurchaseSize + '°³ ±îÁö¸¸ ÁÖ¹®ÀÌ °¡´ÉÇÕ´Ï´Ù.');
+               return ; /* ´õÀÌ»ó ÁøÇàÇÏÁö ¾Êµµ·Ï ÇÒ²²¿ä. 
+            } */
+            /* Number °´Ã¼´Â Integer.parseInt()¿Í µ¿ÀÏÇÑ È¿°ú */
+            var newQty = Number(qty) + 1 ;
+            if(qty == ''){
+               $('#qty').val('1');
+            }else{
+               $('#qty').val(newQty) ;
+            }
+            var amount = newQty*price ;
+            $('#totalprice').text(amount.toLocaleString()) ;
+         });
+          
+         $('.minus').click(function(){ /* »ç¿ëÀÚ°¡ - ¹öÆ°À» Å¬¸¯ÇÔ */
+            event.preventDefault(); 
+            var qty = $('#qty').val();
+            if(qty == '0'){
+               alert('ÃÖ¼Ò 1°³ ÀÌ»ó ±¸¸ÅÇÏ¼Å¾ß ÇÕ´Ï´Ù.');
+               return ;
+            }
+            
+            var newQty = Number(qty) - 1 ;
+            if(qty == ''){
+               $('#qty').val('');
+               $('#totalprice').text('0') ;
+            }else{
+               $('#qty').val(newQty) ;
+               
+               var amount = newQty*price ;
+               $('#totalprice').text(amount.toLocaleString()) ;
+            }            
+         });
+         
+         $('#qty').blur(function(){ /* ¼ö·® ÀÔ·Â¶õÀÌ Æ÷Ä¿½º¸¦ ÀÒÀ» ¶§ */
+            var qty = $('#qty').val();
+         
+            if(qty == '' || isNaN(qty) == true){
+               alert('1°³ ÀÌ»ó ´ã¾Æ¾ßÇÕ´Ï´Ù.' );
+               $('#qty').val('0');
+               $('#qty').focus();
+               return ;
+            }
+            
+            if(isNaN(qty) == false){
+               var newQty = Number(qty) ;
+               if(newQty < 0 || newQty > maxPurchaseSize){
+                  alert('1°³ ÀÌ»ó ´ã¾Æ¾ßÇÕ´Ï´Ù.');
+                  $('#qty').val('0');
+                  $('#qty').focus();
+                  return ;
+               }
+            }
+         });
+         
+         $('.cart').click(function(){ /* Àå¹Ù±¸´Ï Å¬¸¯ */
+            var qty = $('#qty').val();
+            if(qty < 1){
+               alert('ÃÖ¼Ò 1°³ ÀÌ»ó Ä«Æ®¿¡ ´ãÀ» ¼ö ÀÖ½À´Ï´Ù.' );
+               event.preventDefault(); 
+               return ;
+            }
+         });
+         
+         $('.rightnow').click(function(){ /* Áï½Ã ±¸¸Å Å¬¸¯ */
+            var qty = $('#qty').val();
+            if(qty < 1 ){
+               alert('Áï½Ã ±¸¸Å´Â ÃÖ¼Ò 1°³ ÀÌ»ó °¡´ÉÇÕ´Ï´Ù.' );
+               event.preventDefault(); 
+               return ;
+            }
+         });
+         
+         
+      });
+      
+   </script>   
 </head>
 <body>
-	<div class="container">
-		<h2>ìƒí’ˆ ëª©ë¡</h2>
-		<p>ê³ ê°ë“¤ì´ êµ¬ë§¤í•˜ê³ ì í•˜ëŠ” ìƒí’ˆ ëª©ë¡ì„ ë³´ì—¬ ì£¼ëŠ” í˜ì´ì§€ì…ë‹ˆë‹¤.</p>		
-		<table class="table table-borderless">
-			<thead>
-			</thead>
-			<tbody>
-				<tr>
-					<td class="col-lg-5">						
-						<div class="card picZoomer" style="width: 30rem;">
-							<img alt="${bean.name}" src="upload/${bean.image01}" 
-								class="car-img-top active_image">
-						</div>
-					</td>
-					
-					<td class="col-lg-1">
-						<img alt="${bean.name}" src="upload/${bean.image01}" 
-								class="car-img-top small_image rounded" >
-						
-						<c:if test="${not empty bean.image02}">
-							<img alt="${bean.name}" src="upload/${bean.image02}" 
-								class="car-img-top small_image rounded" >
-						</c:if>		
-						
-						<c:if test="${not empty bean.image03}">
-							<img alt="${bean.name}" src="upload/${bean.image03}" 
-								class="car-img-top small_image rounded" >
-						</c:if>
-					</td>
-					
-					<td class="col-lg-6">
-						<div class="card leftside card_borderless" style="width: 18rem;">
-							<h5 class="card-title">${bean.name}</h5>
-							<p class="card-text">${bean.contents}</p>
-							<p class="card-text">
-								í•©ê³„ : <span id="totalprice">10,000</span>ì›
-							</p>
-							<form action="<%=withFormTag%>" method="post">							
-							<ul class="pagination">
-								<li class="page-item"><a class="page-link minus" href="#"> - </a></li>
-								<li class="page-item">
-									<a class="page-link" href="#">
-										<input type="hidden" name="command" value="maInsert">
-										<input type="hidden" name="pnum" value="${bean.pnum}">
-										<input type="hidden" name="stock" value="${bean.stock}">
-										
-										<input type="text" name="qty" id="qty" value="0"
-										data-bs-trigger="hover" data-bs-toggle="popover" 
-										title="ìˆ˜ëŸ‰ ëˆ„ì  ì•Œë¦¼" 
-										data-bs-content="ê¸°ì¡´ ì¹´íŠ¸ì— í’ˆëª©ì´ ì´ë¯¸ ì¡´ì¬í•˜ë©´ ìˆ˜ëŸ‰ì„ ëˆ„ì í•©ë‹ˆë‹¤.">
-									</a>
-								</li>
-								<li class="page-item"><a class="page-link plus" href="#"> + </a></li>
-							</ul>
-							<div class="btn-group">
-								<button type="submit" class="btn btn-primary cart">ì¥ë°”êµ¬ë‹ˆ</button>
-								<button type="button" class="btn btn-primary rightnow">ë°”ë¡œ êµ¬ë§¤</button>								
-							</div>
-							</form>
-						</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>			
-	</div>	 
+   <div class="container">
+      <h2>»óÇ° »ó¼¼º¸±â</h2>
+      
+      <p>${lcname} > ${scname} </p>      
+      <table class="table table-borderless">
+         <thead>
+         </thead>
+         <tbody>
+         
+            <tr>
+               <td class="col-lg-5">                  
+                  <div class="card" style="width: 30rem;">
+                     <img alt="${pname}" src="${rPath}/imgfile/${image}" 
+                        class="car-img-top active_image">
+                  </div>
+               </td>
+               
+               <td class="col-lg-1">
+                  <img alt="${pname}" src="${rPath}/imgfile/${image}" 
+                        class="car-img-top small_image rounded" >
+                  
+                  <c:if test="${not empty image2}">
+                     <img alt="${pname}" src="${rPath}/imgfile/${image2}" 
+                        class="car-img-top small_image rounded" >
+                  </c:if>      
+                  
+                  <c:if test="${not empty image3}">
+                     <img alt="${pname}" src="${rPath}/imgfile/${image3}" 
+                        class="car-img-top small_image rounded" >
+                  </c:if>
+               </td>
+               
+               <td class="col-lg-6">
+                  <div class="card leftside card_borderless" style="width: 18rem;">
+                     <h5 class="card-title">${pname}</h5>
+                     <p class="card-text">${pdetail}</p>
+                     <p class="card-text">
+                        ÇÕ°è : <span id="totalprice">10,000</span>¿ø
+                     </p>
+                     <form action="addCart" method="post">                     
+                     <ul class="pagination">
+                        <li class="page-item"><a class="page-link minus" href="#"> - </a></li>
+                        <li class="page-item">
+                           <a class="page-link" href="#">
+                              <input type="hidden" name="command" value="maInsert">
+                              <input type="hidden" name="pnum" value="${pnum}">
+                              <input type="hidden" name="stock" value="${stock}">
+                              
+                              <input type="text" name="qty" id="qty" value="0"
+                              data-bs-trigger="hover" data-bs-toggle="popover" 
+                              title="¼ö·® ´©Àû ¾Ë¸²" 
+                              data-bs-content="±âÁ¸ Ä«Æ®¿¡ Ç°¸ñÀÌ ÀÌ¹Ì Á¸ÀçÇÏ¸é ¼ö·®À» ´©ÀûÇÕ´Ï´Ù.">
+                           </a>
+                        </li>
+                        <li class="page-item"><a class="page-link plus" href="#"> + </a></li>
+                     </ul>
+                     <div class="btn-group">
+                        <button type="submit" class="btn btn-primary cart">Àå¹Ù±¸´Ï</button>
+                        <button type="button" class="btn btn-primary rightnow">¹Ù·Î ±¸¸Å</button>                        
+                     </div>
+                     </form>
+                  </div>
+               </td>
+            </tr>
+         </tbody>
+      </table>      
+   
+   </div>    
 </body>
 </html>

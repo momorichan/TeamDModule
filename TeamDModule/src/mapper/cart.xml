@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cart">
+	<insert id="cartAdd" parameterType="cartvo">
+		insert into cartitem values (#{id}, #{pnum}, #{qty})
+	</insert>
+	<select id="checkCart" parameterType="java.util.Map" resultType="int">
+		select COUNT(*) cnt from cartitem where id=#{id} and pnum=#{pnum}
+	</select>
+	<update id="cartUpdate" parameterType="cartvo">
+		update cartitem set qty = qty + #{qty} where id=#{id} and pnum=#{pnum}
+	</update>
+	
+	<resultMap type="cartvo" id="cartView">
+		<result property="qty" column="qty"/>
+		<collection property="products" javaType="java.util.List" ofType="pvo">
+			<id property="pnum" column="pnum" javaType="int"/>
+			<result property="pname" column="pname"/>
+			<result property="stock" column="stock"/>
+			<result property="price" column="price"/>
+			<result property="image" column="image"/>
+		</collection>
+	</resultMap>
+	<select id="cartList" parameterType="String" resultMap="cartView">
+		select p.pnum, p.pname, p.image, c.qty, p.price, p.stock
+		from product p, cartitem c
+		where p.pnum = c.pnum
+		and c.id = #{id}
+	</select>
+	<delete id="cartDelete" parameterType="java.util.Map">
+		delete cartitem where id=#{id} and pnum=#{pnum}
+	</delete>
+	
+	<!-- log -->
+	<insert id="log_cartAdd" parameterType="java.util.Map">
+		insert into cartitem_log values (log_seq.nextval, #{id}, (select scnum from product where pnum = #{pnum}), sysdate, 'cart_in')
+	</insert>
+	<insert id="log_cartDelete" parameterType="java.util.Map">
+		insert into cartitem_log values (log_seq.nextval, #{id}, (select scnum from product where pnum = #{pnum}), sysdate, 'cart_out')
+	</insert>
+</mapper>

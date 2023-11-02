@@ -15,4 +15,5 @@ public interface ProductDaoInter {
 	public int getTotal(Map<String, String> map);
 	public List<ProductVO> productList(Map<String, String> map);
 	public List<ProductVO> SearchByCategoryList(Map<String, String> map);
+	public LCategoryVO prDetail(int pnum); // 상품 디테일
 }

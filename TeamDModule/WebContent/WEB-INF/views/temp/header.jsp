@@ -2,14 +2,17 @@
 <%@page import="java.util.*"%>
 <%-- jstl을 위한 태그 라이브러리 선언 --%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">    
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
    
-   <!-- 경로 설정 --> 
+<!-- 경로 설정 --> 
 <c:set var="rPath" value="${pageContext.request.contextPath}/resources"/>
 <c:set var="cPath" value="${pageContext.request.contextPath}"/>
+<!-- 더미 아이디 -->
+<c:set var="sessionID" value="kim" scope="session" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,7 +45,7 @@
 			          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">쇼핑몰</a>
 			          <ul class="dropdown-menu">          
 			            <li>
-			            	<a class="dropdown-item" href="maList">
+			            	<a class="dropdown-item" href="cartList">
 			            		카트 내역 보기
 			            	</a>
 			            </li>

@@ -14,14 +14,14 @@ import teamD.module.mvc.dto.ProductVO;
 import teamD.module.mvc.dto.SCategoryVO;
 
 @Repository
-public class ProductDao implements ProductDaoInter{
-	
+public class ProductDao implements ProductDaoInter {
+
 	@Autowired
 	private SqlSessionTemplate ss;
-	
+
 	@Override
 	public void prInsert(ProductVO vo) {
-		ss.insert("product.add",vo);
+		ss.insert("product.add", vo);
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class ProductDao implements ProductDaoInter{
 
 	@Override
 	public List<SCategoryVO> scList(int lcnum) {
-		return ss.selectList("product.sclist",lcnum);
+		return ss.selectList("product.sclist", lcnum);
 	}
 
 	@Override
@@ -41,35 +41,34 @@ public class ProductDao implements ProductDaoInter{
 
 	@Override
 	public int getTotal(Map<String, String> map) {
-		System.out.println("토탈카운트 실행 " );
-		
+		System.out.println("토탈카운트 실행 ");
+
 		for (Map.Entry<String, String> entry : map.entrySet()) {
-		    String key2 = entry.getKey();
-		    String value = entry.getValue();
-		    System.out.println("토탈카운트 맵 Key: " + key2 + ", Value: " + value);
+			String key2 = entry.getKey();
+			String value = entry.getValue();
+			System.out.println("토탈카운트 맵 Key: " + key2 + ", Value: " + value);
 		}
-		//맵에는 무조건 lcnum, scnum이 있다.
-		
-		
+		// 맵에는 무조건 lcnum, scnum이 있다.
+
 		int total = 0;
 		Map<String, String> fakemap = new HashMap<String, String>();
 
-		if("0".equals(map.get("lcnum"))) {
+		if ("0".equals(map.get("lcnum"))) {
 			total = ss.selectOne("product.totalCount", fakemap);
-		}else if(!"0".equals(map.get("lcnum")) && "0".equals(map.get("scnum"))){
+		} else if (!"0".equals(map.get("lcnum")) && "0".equals(map.get("scnum"))) {
 			fakemap.put("lcnum", map.get("lcnum"));
-			total = ss.selectOne("product.totalCount",fakemap);
-		}else if(!"0".equals(map.get("scnum"))) {
+			total = ss.selectOne("product.totalCount", fakemap);
+		} else if (!"0".equals(map.get("scnum"))) {
 			fakemap.put("scnum", map.get("scnum"));
-			total = ss.selectOne("product.totalCount",fakemap);
+			total = ss.selectOne("product.totalCount", fakemap);
 		}
-		
+
 		return total;
 	}
 
 	@Override
 	public List<ProductVO> productList(Map<String, String> map) {
-		return ss.selectList("product.prlist",map);
+		return ss.selectList("product.prlist", map);
 	}
 
 	@Override
@@ -79,28 +78,28 @@ public class ProductDao implements ProductDaoInter{
 		
 		fakemap.put("begin", map.get("begin"));
 		fakemap.put("end", map.get("end"));
+	
 		
 		
-		String key = null;
-		if (map.containsKey("lcnum")) {
-		    key = "lcnum";
-		} else if (map.containsKey("scnum")) {
-		    key = "scnum";
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+			String key2 = entry.getKey();
+			String value = entry.getValue();
+			System.out.println("프로덕트 맵 Key: " + key2 + ", Value: " + value);
 		}
 		
 		
 
+		    list = ss.selectList("product.SearchByCategory", map);
+
 		
-		if (key != null) {
-		    int value = Integer.parseInt(map.get(key));
-		    if(key == "lcnum" || (key == "scnum" && !"0".equals(map.get(key)))) {
-			    Map<String, String> targetMap = value == 0 ? fakemap : map;
-			    list = ss.selectList("product.SearchByCategory", targetMap);
-		    }else {
-		    	list = ss.selectList("product.SearchByCategory", map);
-		    }
-		}
 		return list;
+	}
+
+	@Override
+	public LCategoryVO prDetail(int pnum) {
+		LCategoryVO vo = ss.selectOne("product.prDetail", pnum);
+		return vo;
+
 	}
 
 }
