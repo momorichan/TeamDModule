@@ -10,11 +10,11 @@ public class ProductVO {
 	private int stock; // 상품 재고
 	private String pdetail; // 상품 상세 설명
 	private String image; // 상품 이미지 1
-	private MultipartFile mfile1;
+	private MultipartFile mfile1; // MultipartFile로 이미지 파일 업로드
 	private String image2;// 상품 이미지 2
-	private MultipartFile mfile2;
+	private MultipartFile mfile2; // MultipartFile로 이미지 파일2 업로드
 	private String image3;// 상품 이미지 3
-	private MultipartFile mfile3;
+	private MultipartFile mfile3; // MultipartFile로 이미지 파일3 업로드
 
 	public MultipartFile getMfile1() {
 		return mfile1;

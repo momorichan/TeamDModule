@@ -5,7 +5,7 @@ public class CartItem_LogVO {
 	private String id; // 로그인한 아이디
 	private int scnum; // 소분류 카테고리 
 	private String logtime; // 로그 찍힌 시간
-	private String status; // 로그 상태, 장바구니 on/off, 구매
+	private String status; // 로그 상태, cart_in/ cart_out
 	
 	public int getLogid() {
 		return logid;
@@ -38,8 +38,4 @@ public class CartItem_LogVO {
 		this.status = status;
 	}
 	
-	
-	
-	
-
 }

@@ -3,12 +3,15 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cart">
+	<!-- 장바구니 추가  -->
 	<insert id="cartAdd" parameterType="cartvo">
 		insert into cartitem values (#{id}, #{pnum}, #{qty})
 	</insert>
+	<!-- 장바구니 유무 확인 -->
 	<select id="checkCart" parameterType="java.util.Map" resultType="int">
 		select COUNT(*) cnt from cartitem where id=#{id} and pnum=#{pnum}
 	</select>
+	<!-- 장바구니 업데이트 , 이미 같은 상품이 존재할 경우에만 실행-->
 	<update id="cartUpdate" parameterType="cartvo">
 		update cartitem set qty = qty + #{qty} where id=#{id} and pnum=#{pnum}
 	</update>
@@ -23,20 +26,24 @@
 			<result property="image" column="image"/>
 		</collection>
 	</resultMap>
+	<!-- 카트 목록을 보여줌 -->
 	<select id="cartList" parameterType="String" resultMap="cartView">
 		select p.pnum, p.pname, p.image, c.qty, p.price, p.stock
 		from product p, cartitem c
 		where p.pnum = c.pnum
 		and c.id = #{id}
 	</select>
+	<!-- 카트 목록 삭제 -->
 	<delete id="cartDelete" parameterType="java.util.Map">
 		delete cartitem where id=#{id} and pnum=#{pnum}
 	</delete>
 	
 	<!-- log -->
+	<!-- 카트에 아이템 추가시 ('cart_in')로그 찍음 -->
 	<insert id="log_cartAdd" parameterType="java.util.Map">
 		insert into cartitem_log values (log_seq.nextval, #{id}, (select scnum from product where pnum = #{pnum}), sysdate, 'cart_in')
 	</insert>
+	<!-- 카트에 아이템 삭제시 ('cart_out')로그 찍음 -->
 	<insert id="log_cartDelete" parameterType="java.util.Map">
 		insert into cartitem_log values (log_seq.nextval, #{id}, (select scnum from product where pnum = #{pnum}), sysdate, 'cart_out')
 	</insert>

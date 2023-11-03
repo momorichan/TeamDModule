@@ -8,12 +8,10 @@ import teamD.module.mvc.dto.ProductVO;
 import teamD.module.mvc.dto.SCategoryVO;
 
 public interface ProductDaoInter {
-	public void prInsert(ProductVO vo);
-	public List<LCategoryVO> lcList (); 
-	public List<SCategoryVO> scList(int lcnum);
-	public List<ProductVO> prList(Map<String, String> map);
-	public int getTotal(Map<String, String> map);
-	public List<ProductVO> productList(Map<String, String> map);
-	public List<ProductVO> SearchByCategoryList(Map<String, String> map);
-	public LCategoryVO prDetail(int pnum); // 상품 디테일
+	public void prInsert(ProductVO vo); // 상품 등록
+	public List<LCategoryVO> lcList (); // 대분류 카테고리 리스트
+	public List<SCategoryVO> scList(int lcnum); //소분류 카테고리 리스트
+	public int getTotal(Map<String, String> map); // 상품 개수
+	public List<ProductVO> productList(Map<String, String> map); // 상품목록
+	public LCategoryVO prDetail(int pnum); // 상품 상세보기
 }

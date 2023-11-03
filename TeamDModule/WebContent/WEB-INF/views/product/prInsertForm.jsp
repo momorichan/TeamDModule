@@ -11,11 +11,11 @@
       <form action="prAdd" method="post" enctype="multipart/form-data">
          <div class="input-group">
             <span class="input-group-text">상품 이름</span>
-            <input class="form-control" type="text" id="pname" name="pname">            
+            <input class="form-control" type="text" id="pname" name="pname" required="required">             
          </div>
          <div class="input-group">
             <span class="input-group-text">이미지01</span>
-            <input class="form-control" type="file" id="mfile1" name="mfile1">            
+            <input class="form-control" type="file" id="mfile1" name="mfile1" required="required">            
          </div>
          <div class="input-group">
             <span class="input-group-text">이미지02</span>
@@ -27,11 +27,11 @@
          </div>
          <div class="input-group">
             <span class="input-group-text">재고 수량</span>
-            <input class="form-control" type="number" id="stock" name="stock">            
+            <input class="form-control" type="number" id="stock" name="stock" required="required">            
          </div>
          <div class="input-group">
             <span class="input-group-text">단가</span>
-            <input class="form-control" type="number" id="price" name="price">            
+            <input class="form-control" type="number" id="price" name="price" required="required">            
          </div>
          <div class="input-group">
             <span class="input-group-text">대분류카테고리</span>
@@ -49,7 +49,7 @@
          </div>
          <div class="input-group">
             <span class="input-group-text">상품 상세 설명</span>
-            <input class="form-control" type="text" id="pdetail" name="pdetail">            
+            <input class="form-control" type="text" id="pdetail" name="pdetail" required="required">            
          </div>         
          <div id="buttonset" class="input-group">
             <button type="submit" class="btn btn-primary btn-lg"> 

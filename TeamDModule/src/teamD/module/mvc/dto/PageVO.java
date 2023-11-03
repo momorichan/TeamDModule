@@ -13,17 +13,16 @@ public class PageVO {
 	private int totalBlock; // 전체 블럭 수
 	private int beginPerPage; // 각 페이지별 시작 게시물의 index 값
 	private int endPerPage; // 각 페이지별 마지막 게시물의 index 값
-	
-	// 페이지 기본 값 여기임. 
+
+	// 페이지 기본 값 여기임.
 	public PageVO() {
-		this.nowPage=1;
+		this.nowPage = 1;
 		this.nowBlock = 1;
 		this.numPerPage = 10;
-		this.pagePerBlock=5;
+		this.pagePerBlock = 10;
 		System.out.println("페이지 처리 객체가 생성되었습니다.");
 	}
-	
-	
+
 	@Override
 	public String toString() {
 		return "PageVO [nowPage=" + nowPage + ", nowBlock=" + nowBlock + ", totalRecord=" + totalRecord
@@ -31,58 +30,74 @@ public class PageVO {
 				+ ", totalBlock=" + totalBlock + ", beginPerPage=" + beginPerPage + ", endPerPage=" + endPerPage + "]";
 	}
 
-
 	public int getNowPage() {
 		return nowPage;
 	}
+
 	public void setNowPage(int nowPage) {
 		this.nowPage = nowPage;
 	}
+
 	public int getNowBlock() {
 		return nowBlock;
 	}
+
 	public void setNowBlock(int nowBlock) {
 		this.nowBlock = nowBlock;
 	}
+
 	public int getTotalRecord() {
 		return totalRecord;
 	}
+
 	public void setTotalRecord(int totalRecord) {
 		this.totalRecord = totalRecord;
 	}
+
 	public int getNumPerPage() {
 		return numPerPage;
 	}
+
 	public void setNumPerPage(int numPerPage) {
 		this.numPerPage = numPerPage;
 	}
+
 	public int getPagePerBlock() {
 		return pagePerBlock;
 	}
+
 	public void setPagePerBlock(int pagePerBlock) {
 		this.pagePerBlock = pagePerBlock;
 	}
+
 	public int getTotalPage() {
 		return totalPage;
 	}
+
 	public void setTotalPage(int totalPage) {
 		this.totalPage = totalPage;
 	}
+
 	public int getTotalBlock() {
 		return totalBlock;
 	}
+
 	public void setTotalBlock(int totalBlock) {
 		this.totalBlock = totalBlock;
 	}
+
 	public int getBeginPerPage() {
 		return beginPerPage;
 	}
+
 	public void setBeginPerPage(int beginPerPage) {
 		this.beginPerPage = beginPerPage;
 	}
+
 	public int getEndPerPage() {
 		return endPerPage;
 	}
+
 	public void setEndPerPage(int endPerPage) {
 		this.endPerPage = endPerPage;
 	}

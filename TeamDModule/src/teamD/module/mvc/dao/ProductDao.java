@@ -1,7 +1,5 @@
 package teamD.module.mvc.dao;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,90 +14,40 @@ import teamD.module.mvc.dto.SCategoryVO;
 @Repository
 public class ProductDao implements ProductDaoInter {
 
-	@Autowired
-	private SqlSessionTemplate ss;
+   @Autowired
+   private SqlSessionTemplate ss;
+   // 상품등록
+   @Override
+   public void prInsert(ProductVO vo) {
+      ss.insert("product.add", vo);
+   }   
+   // 대분류 카테고리
+   @Override
+   public List<LCategoryVO> lcList() {
+      return ss.selectList("product.lclist");
+   }
+   // 소분류 카테고리
+   @Override
+   public List<SCategoryVO> scList(int lcnum) {
+      return ss.selectList("product.sclist", lcnum);
+   }
+   // 상품 개수
+   @Override
+   public int getTotal(Map<String, String> map) {
+      return ss.selectOne("product.totalCount", map);
+   }
 
-	@Override
-	public void prInsert(ProductVO vo) {
-		ss.insert("product.add", vo);
-	}
+   // 상품 목록
+   @Override
+   public List<ProductVO> productList(Map<String, String> map) {
+      return  ss.selectList("product.prList", map);
+   }
 
-	@Override
-	public List<LCategoryVO> lcList() {
-		return ss.selectList("product.lclist");
-	}
+   // 상품 상세보기
+   @Override
+   public LCategoryVO prDetail(int pnum) {
+      return ss.selectOne("product.prDetail", pnum);
 
-	@Override
-	public List<SCategoryVO> scList(int lcnum) {
-		return ss.selectList("product.sclist", lcnum);
-	}
-
-	@Override
-	public List<ProductVO> prList(Map<String, String> map) {
-		return ss.selectList("product.prlist");
-	}
-
-	@Override
-	public int getTotal(Map<String, String> map) {
-		System.out.println("토탈카운트 실행 ");
-
-		for (Map.Entry<String, String> entry : map.entrySet()) {
-			String key2 = entry.getKey();
-			String value = entry.getValue();
-			System.out.println("토탈카운트 맵 Key: " + key2 + ", Value: " + value);
-		}
-		// 맵에는 무조건 lcnum, scnum이 있다.
-
-		int total = 0;
-		Map<String, String> fakemap = new HashMap<String, String>();
-
-		if ("0".equals(map.get("lcnum"))) {
-			total = ss.selectOne("product.totalCount", fakemap);
-		} else if (!"0".equals(map.get("lcnum")) && "0".equals(map.get("scnum"))) {
-			fakemap.put("lcnum", map.get("lcnum"));
-			total = ss.selectOne("product.totalCount", fakemap);
-		} else if (!"0".equals(map.get("scnum"))) {
-			fakemap.put("scnum", map.get("scnum"));
-			total = ss.selectOne("product.totalCount", fakemap);
-		}
-
-		return total;
-	}
-
-	@Override
-	public List<ProductVO> productList(Map<String, String> map) {
-		return ss.selectList("product.prlist", map);
-	}
-
-	@Override
-	public List<ProductVO> SearchByCategoryList(Map<String, String> map) {
-		List<ProductVO> list = new ArrayList<ProductVO>();
-		Map<String, String> fakemap = new HashMap<String, String>();
-		
-		fakemap.put("begin", map.get("begin"));
-		fakemap.put("end", map.get("end"));
-	
-		
-		
-		for (Map.Entry<String, String> entry : map.entrySet()) {
-			String key2 = entry.getKey();
-			String value = entry.getValue();
-			System.out.println("프로덕트 맵 Key: " + key2 + ", Value: " + value);
-		}
-		
-		
-
-		    list = ss.selectList("product.SearchByCategory", map);
-
-		
-		return list;
-	}
-
-	@Override
-	public LCategoryVO prDetail(int pnum) {
-		LCategoryVO vo = ss.selectOne("product.prDetail", pnum);
-		return vo;
-
-	}
+   }
 
 }

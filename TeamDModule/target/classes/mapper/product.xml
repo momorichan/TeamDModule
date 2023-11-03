@@ -3,104 +3,77 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
+	<!-- 상품 추가 -->
 	<insert id="add" parameterType="pvo">
 		insert into product
 		values(product_seq.nextval, #{pname}, #{price},
 		#{scnum}, #{stock},
 		#{pdetail}, #{image}, #{image2}, #{image3})
 	</insert>
+	<!-- 대분류 카테고리 리스트  -->
 	<select id="lclist" resultType="lcvo">
 		select lcnum, lcname from
 		lcategory
 	</select>
+	<!-- 소분류 카테고리 리스트 -->
 	<select id="sclist" resultType="scvo" parameterType="int">
 		select
 		scnum, lcnum, scname from scategory where lcnum = #{lcnum}
 	</select>
-
-
-	<select id="prlist" resultType="pvo" parameterType="map">
-		select pnum, pname, image, price
-		from (
-		select rownum r_num, p.* from (
-		select p.pnum, p.pname, p.image, p.price
-		from product p
-		join scategory s
-		ON p.scnum = s.scnum
-		<if test="lcnum != null or scnum != null">
-			<where>
-				<choose>
-					<when test="lcnum != null">
-						s.lcnum = #{lcnum}
-					</when>
-					<when test="scnum != null">
-						s.scnum = #{scnum}
-					</when>
-				</choose>
-			</where>
-			<if test="searchValue != null">
-				pname like '%'||#{searchValue}||'%'
-			</if>
-		</if>
-		order by 1 desc
-		) p
-		)
-		where r_num between #{begin} and #{end}
-	</select>
-
-
-	<select id="totalCount" resultType="int" parameterType="map">
-		select count(*) cnt from product
-		<where>
-			<choose>
-				<when test="lcnum != null">
-					scnum IN (SELECT scnum FROM scategory WHERE lcnum =
-					#{lcnum})
-				</when>
-				<when test="scnum != null">
-					scnum = #{scnum}
-				</when>
-				<when test="lcnum != null and scnum != null">
-					scnum IN
-					(SELECT scnum FROM scategory WHERE lcnum =
-					(SELECT lcnum FROM scategory WHERE scnum = #{scnum}))
-				</when>
-			</choose>
-		</where>
-	</select>
-
-
-	<select id="SearchByCategory" parameterType="map"
-		resultType="pvo">
-		select pnum, pname, image, price, scnum
-		from
-		( select rownum r_num, p.* from ( select pnum, pname, image, price,
-		scnum from product
-		<where>
-			<choose>
-				<when test="lcnum == 0">
-				</when>
-				<!-- lcnum가 맵에 존재하는 경우 -->
-				<!-- lcnum으로 검색(대분류 카테고리 아래 모든 소분류 카테고리를 검색) -->
-				<when test="scnum == 0"> 
-					scnum IN (SELECT scnum FROM scategory WHERE lcnum =
-					#{lcnum})
-				</when>
-				<!-- scnum가 맵에 존재하는 경우 -->
-				<!-- scnum으로 검색(해당 소분류 카테고리만 검색) -->
-				<when test="scnum != 0"> 
-					scnum = #{scnum}
-				</when>
-
-			</choose>
-		</where>
-		order by pnum desc
-		) p
-		)
-		where r_num between #{begin} and #{end}
-	</select>
-
-
+	
+	<!-- 페이징 처리에 따른 상품 개수 -->
+   <select id="totalCount" resultType="int" parameterType="map">
+      select count(*) cnt from product
+      <where>
+         <choose>
+            <when test="lcnum == 0">
+            </when>
+            <when test="scnum == 0">
+               scnum IN (SELECT scnum FROM scategory WHERE lcnum =
+               #{lcnum})
+            </when>
+            <when test="scnum != 0">
+               scnum = #{scnum}
+            </when>
+         </choose>
+         <if test="searchValue != null">
+              and pname like '%'|| #{searchValue} ||'%'
+           </if>
+      </where>
+   </select>
+	<!-- 페이징 처리에 따른 상품 목록 -->
+	<select id="prList" parameterType="map"
+      resultType="pvo">
+      select pnum, pname, image, price, scnum
+      from
+      ( select rownum r_num, p.* from ( select pnum, pname, image, price,
+      scnum from product
+      <where>
+         <choose>
+         	<!-- 대분류를 선택하지 않았을때 (전체선택) -->
+            <when test="lcnum == 0">
+            </when>
+            <!-- 소분류를 선택하지 않았을때 (선택된 대분류로 검색) -->
+            <when test="scnum == 0"> 
+               scnum IN (SELECT scnum FROM scategory WHERE lcnum =
+               #{lcnum})
+            </when>
+             <!-- 소분류를 선택했을때 (선택된 소분류로 검색) -->
+            <when test="scnum != 0"> 
+               scnum = #{scnum}
+            </when>
+         </choose>
+         <!-- 검색 키워드가 있다면?  -->
+         <if test="searchValue != null">
+               and pname like '%'|| #{searchValue} ||'%'
+          </if>
+      </where>
+      order by pnum desc
+      ) p
+      )
+      where r_num between #{begin} and #{end}
+   </select>
+   <!-- productVO에 없는 컬럼을 VO에 인스턴스 변수로 선언하지 않기 위해 생성 -->
 	<resultMap type="lcvo" id="prView">
 		<result property="lcname" column="lcname" />
 		<collection property="scategories"
@@ -119,11 +92,13 @@
 			</collection>
 		</collection>
 	</resultMap>
-	<select id="prDetail" parameterType="int" resultMap="prView"> <!-- 상품상세보기 -->
+	<!-- 상품상세보기 (resultMap(prView) 에 정보를 담음) -->
+	<select id="prDetail" parameterType="int" resultMap="prView"> 
 		select p.pnum, p.pname, p.price, p.stock, p.pdetail, p.image,
 		p.image2, p.image3, s.scname, l.lcname
 		from product p, scategory s,
 		lcategory l where p.scnum = s.scnum and s.lcnum = l.lcnum
-		and pnum = #{pnum}
+		and pnum =
+		#{pnum}
 	</select>
 </mapper>
